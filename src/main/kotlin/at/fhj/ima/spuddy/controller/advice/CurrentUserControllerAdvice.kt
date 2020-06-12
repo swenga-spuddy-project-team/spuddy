@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ModelAttribute
 
 
+// Dieser Advice ist im globalen Kontext sichtbar und ermöglicht so JSPs den Zugriff auf
+// Infos wie den aktuellen User ohne eine separate Implementierung für jedes Request Mapping
+// Ist zB relevant für die User HomePage um alle Informationen des jeweiligen Users abrufen zu können
 @ControllerAdvice
 class CurrentUserControllerAdvice(val userRepository: UserRepository) {
 

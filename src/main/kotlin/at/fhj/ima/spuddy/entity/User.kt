@@ -1,7 +1,9 @@
 package at.fhj.ima.spuddy.entity
 
-import java.util.*
+import java.io.Serializable
+import java.time.LocalDate
 import javax.persistence.*
+
 
 enum class UserRole {
     ROLE_USER,
@@ -20,15 +22,14 @@ class User(
     var password: String,
     @Enumerated(EnumType.STRING)
     var role: UserRole,
-    // Die Attribute unterhalb benötigen evtl. noch Tags wie @Column(nullable= false)
-    var lastname: String,
-    var firstname: String,
-    var dateOfBirth: Date,
-    var districtId: Int,
-    var gender: String,
-    var descriptionText: String,
-    var mailAddress: String,
-    // Default Wert für isTeam ist false
+    // Todo: Die Attribute unterhalb benötigen noch Tags wie @Column(nullable= false)
+    var lastname: String? = null,
+    var firstname: String? = null,
+    var dateOfBirth: LocalDate? = null,
+    var districtId: Int? = null,
+    var gender: String? = null,
+    var descriptionText: String? = null,
+    var mailAddress: String? = null,
     var isTeam: Boolean? = false
 
 ) : Comparable<User> {
