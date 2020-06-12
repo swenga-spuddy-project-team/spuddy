@@ -1,5 +1,6 @@
 package at.fhj.ima.spuddy.entity
 
+import java.util.*
 import javax.persistence.*
 
 enum class UserRole {
@@ -18,7 +19,18 @@ class User(
     var username: String,
     var password: String,
     @Enumerated(EnumType.STRING)
-    var role: UserRole
+    var role: UserRole,
+    // Die Attribute unterhalb benötigen evtl. noch Tags wie @Column(nullable= false)
+    var lastname: String,
+    var firstname: String,
+    var dateOfBirth: Date,
+    var districtId: Int,
+    var gender: String,
+    var descriptionText: String,
+    var mailAddress: String,
+    // Default Wert für isTeam ist false
+    var isTeam: Boolean? = false
+
 ) : Comparable<User> {
     override fun compareTo(other: User): Int {
         return compareValues(id, other.id)
