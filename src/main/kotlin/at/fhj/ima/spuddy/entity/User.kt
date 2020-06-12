@@ -10,6 +10,12 @@ enum class UserRole {
     ROLE_ADMIN
 }
 
+enum class Gender {
+    MALE,
+    FEMALE,
+    OTHER
+}
+
 // User Klasse beschreibt den Login User
 
 @Entity
@@ -31,7 +37,8 @@ class User(
     var dateOfBirth: LocalDate? = null,
     @Column(nullable = false)
     var districtId: Int? = null,
-    var gender: String? = null,
+    @Enumerated(EnumType.STRING)
+    var gender: Gender? = null,
     var descriptionText: String? = null,
     var mailAddress: String? = null,
     @Column(nullable = false)
