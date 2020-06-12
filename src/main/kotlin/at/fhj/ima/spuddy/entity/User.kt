@@ -23,16 +23,22 @@ class User(
     @Enumerated(EnumType.STRING)
     var role: UserRole,
     // Todo: Die Attribute unterhalb benötigen noch Tags wie @Column(nullable= false)
+    @Column(nullable = false)
     var lastname: String? = null,
+    @Column(nullable = false)
     var firstname: String? = null,
+    @Column(nullable = false)
     var dateOfBirth: LocalDate? = null,
+    @Column(nullable = false)
     var districtId: Int? = null,
     var gender: String? = null,
     var descriptionText: String? = null,
     var mailAddress: String? = null,
-    var isTeam: Boolean? = false
-    // Todo: ManyToMany Beziehung zu SportArten,
-    //  ManyToOne Beziehungen zu Sport?
+    @Column(nullable = false)
+    var isTeam: Boolean? = false,
+    var profilePictureUrl: String? = null,
+    @ManyToMany
+    var sport : Set<Sport>? = null
     //  ManyToMany Beziehung zu Pictures oder hat jeder User nur ein einziges Bild? Falls ja -> ManyToOne,
     //  OneToMany Beziehung zu Likes Entity (Status wird dabei als enum Class dargestellt - also Liked, Disliked, not seen,
     //  ManyToMany Messages - jede Message enthält Absender und Empfänger, sowie
