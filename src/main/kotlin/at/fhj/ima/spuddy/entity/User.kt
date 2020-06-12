@@ -31,6 +31,15 @@ class User(
     var descriptionText: String? = null,
     var mailAddress: String? = null,
     var isTeam: Boolean? = false
+    // Todo: ManyToMany Beziehung zu SportArten,
+    //  ManyToOne Beziehungen zu Sport,
+    //  ManyToMany Beziehung zu Pictures oder hat jeder User nur ein einziges Bild? Falls ja -> ManyToOne,
+    //  OneToMany Beziehung zu Likes Entity,
+    //  OneToMany Beziehung zu Messages,
+    //  Entweder zweifache OneToMany Beziehung zu Chats oder ManyToMany,
+    //  letzteres würde bedeuten das einfach mehrere Nutzer dem selben Chat zugewiesen werden können
+    //  ohne das es einen Unterschied gibt - alternativ müsste der User der als erstes schreibt
+    //  die erste AccountId sein und der Empfänger die zweite - wäre ws leichter
 
 ) : Comparable<User> {
     override fun compareTo(other: User): Int {
