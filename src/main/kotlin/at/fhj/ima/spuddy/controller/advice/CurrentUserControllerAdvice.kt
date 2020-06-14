@@ -1,6 +1,7 @@
 package at.fhj.ima.spuddy.controller.advice
 
 import at.fhj.ima.spuddy.repository.UserRepository
+import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -18,7 +19,10 @@ class CurrentUserControllerAdvice(val userRepository: UserRepository) {
 
         val auth = SecurityContextHolder.getContext().authentication
         val username = auth.name
-
+        // Gibt nichts zurück wenn der User anonym ist
+        if(auth is AnonymousAuthenticationToken) {
+            return
+        }
         val currentUser = userRepository.findByUsername(username)
         model.addAttribute("currentUser", currentUser)
     }

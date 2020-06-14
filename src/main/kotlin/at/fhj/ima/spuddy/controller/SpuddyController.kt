@@ -1,5 +1,8 @@
 package at.fhj.ima.spuddy.controller
 
+import at.fhj.ima.spuddy.entity.User
+import at.fhj.ima.spuddy.entity.UserRole
+import at.fhj.ima.spuddy.repository.UserRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.access.annotation.Secured
 import org.springframework.stereotype.Controller
@@ -10,10 +13,37 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
-
+import javax.validation.Valid
 
 @Controller
-class SpuddyController  {
+class SpuddyController (val userRepository: UserRepository)  {
+
+    @RequestMapping("/signup", method = [RequestMethod.GET])
+    fun signup(model: Model ): String{
+        var user = User(username = "", password = "", role = UserRole.ROLE_USER)
+        model.set("user", user)
+        return "signup"
+    }
+
+    @RequestMapping("/addUser", method = [RequestMethod.POST])
+    fun addUser(@ModelAttribute("user") @Valid user: User,
+                       bindingResult: BindingResult, model: Model): String {
+        if (bindingResult.hasErrors()) {
+            return "signup"
+        }
+        try {
+            userRepository.save(user)
+        } catch (dive: DataIntegrityViolationException) {
+            if (dive.message.orEmpty().contains("username")) {
+                bindingResult.rejectValue("username", "username.alreadyInUse", "Username already in use");
+                return "signup"
+            } else {
+                throw dive;
+            }
+        }
+        return "home"
+    }
+
 
     // Simple Request mapping that returns the home.jsp landing page
     @RequestMapping("/home", method = [RequestMethod.GET])
@@ -28,6 +58,12 @@ class SpuddyController  {
         return "admin"
     }
 
+    // Einfaches Test Mapping um etwa zu testen ob Form Submits etc. funktionieren
+    @RequestMapping("/test", method = [RequestMethod.GET])
+    fun test(model: Model, @RequestParam(required = false) search: String?): String {
+        return "test"
+    }
+
     // Redirect to error page on problem
     @ExceptionHandler(Exception::class)
     fun handleError(req: HttpServletRequest, ex: Exception): ModelAndView {
@@ -37,6 +73,7 @@ class SpuddyController  {
         mav.viewName = "error"
         return mav
     }
+
 }
 
 //Todo: RequestMapping für Swipe implementieren bzw dahinter liegende Business Logik und Aufbau

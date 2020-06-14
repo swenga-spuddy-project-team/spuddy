@@ -27,12 +27,11 @@ class User(
     var username: String,
     var password: String,
     @Enumerated(EnumType.STRING)
-    var role: UserRole,
-    // Todo: Die Attribute unterhalb benötigen noch Tags wie @Column(nullable= false)
+    var role: UserRole? = UserRole.ROLE_USER,
     @Column(nullable = false)
-    var lastname: String? = null,
+    var lastName: String? = null,
     @Column(nullable = false)
-    var firstname: String? = null,
+    var firstName: String? = null,
     @Column(nullable = false)
     var dateOfBirth: LocalDate? = null,
     @Column(nullable = false)
@@ -40,7 +39,7 @@ class User(
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null,
     var descriptionText: String? = null,
-    var mailAddress: String? = null,
+    var email: String? = null,
     @Column(nullable = false)
     var isTeam: Boolean? = false,
     var profilePictureUrl: String? = null,
