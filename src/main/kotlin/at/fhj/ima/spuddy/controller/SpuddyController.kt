@@ -1,10 +1,13 @@
 package at.fhj.ima.spuddy.controller
 
+import at.fhj.ima.spuddy.entity.Gender
 import at.fhj.ima.spuddy.entity.User
+import at.fhj.ima.spuddy.entity.UserDto
 import at.fhj.ima.spuddy.entity.UserRole
 import at.fhj.ima.spuddy.repository.UserRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.access.annotation.Secured
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -20,19 +23,46 @@ class SpuddyController (val userRepository: UserRepository)  {
 
     @RequestMapping("/signup", method = [RequestMethod.GET])
     fun signup(model: Model ): String{
-        var user = User(username = "", password = "", role = UserRole.ROLE_USER)
-        model.set("user", user)
+        var userdto = UserDto(username = "", password = "", passwordrepeat = "")
+        model.set("userdto", userdto)
         return "signup"
     }
 
     @RequestMapping("/addUser", method = [RequestMethod.POST])
-    fun addUser(@ModelAttribute("user") @Valid user: User,
-                       bindingResult: BindingResult, model: Model): String {
+    fun addUser(@ModelAttribute("userdto") @Valid userdto: UserDto,
+                bindingResult: BindingResult, model: Model): String {
         if (bindingResult.hasErrors()) {
             return "signup"
         }
         try {
-            userRepository.save(user)
+            // Todo: Dieser Bereich muss mehrfach und genau auf potentielle Input Fehler geprüft werden
+            //  Ein User darf unter keinen Umständen falsche Daten eingeben können - nicht nur durch ein Formular
+            //  sondern auch über eventuelle böse Requests
+            if(userRepository.findByUsername(userdto.username) == null) {
+
+                // Check if the passwords match, if they don't throw an error
+                if(userdto.password == userdto.passwordrepeat){
+
+                    var newUser = User(
+                        username = userdto.username,
+                        role = UserRole.ROLE_USER,
+                        password = BCryptPasswordEncoder().encode(userdto.password)
+                    )
+                    newUser.lastName = userdto.lastName
+                    newUser.firstName = userdto.firstName
+                    newUser.dateOfBirth = userdto.dateOfBirth
+                    newUser.districtId = userdto.districtId
+                    newUser.gender = userdto.gender
+                    newUser.email = userdto.email
+                    newUser.isTeam = userdto.isTeam
+
+                    userRepository.save(newUser)
+                }
+                else {
+                    bindingResult.rejectValue("password", "password.noMatchOnRepeat", "Passwords don't match")
+                }
+            }
+
         } catch (dive: DataIntegrityViolationException) {
             if (dive.message.orEmpty().contains("username")) {
                 bindingResult.rejectValue("username", "username.alreadyInUse", "Username already in use");
@@ -41,7 +71,7 @@ class SpuddyController (val userRepository: UserRepository)  {
                 throw dive;
             }
         }
-        return "home"
+        return "redirect:login"
     }
 
 

@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UserRepository : JpaRepository<User, Int> {
     @Query("FROM User where username = :username")
-    fun findByUsername(@Param("username") username: String): User // Sollte man den User nicht nach id finden??
+    fun findByUsername(@Param("username") username: String): User?
+    // Sollte man den User nicht nach id finden??
+    // Sowohl die ID als auch der Username müssen Unique sein - von daher egal
 }

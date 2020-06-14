@@ -3,6 +3,7 @@ package at.fhj.ima.spuddy.entity
 import java.io.Serializable
 import java.time.LocalDate
 import javax.persistence.*
+import javax.validation.constraints.Size
 
 
 enum class UserRole {
@@ -25,6 +26,8 @@ class User(
     var id: Int? = null,
     @Column(nullable = false, unique = true)
     var username: String,
+    @Column(nullable = false)
+    @Size(min = 2, max = 30)
     var password: String,
     @Enumerated(EnumType.STRING)
     var role: UserRole? = UserRole.ROLE_USER,

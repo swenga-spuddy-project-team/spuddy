@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <form:form modelAttribute="user"  class="needs-validation form-horizontal" method="post" action="addUser" novalidate="novalidate">
+            <form:form modelAttribute="userdto"  class="needs-validation form-horizontal" method="post" action="addUser" novalidate="novalidate">
                 <fieldset>
                     <legend>SignUp</legend>
 
@@ -30,8 +30,17 @@
                     <div class="form-group">
                         <label for="inputPassword" class="col-md-2 control-label">Password*</label>
                         <div class="col-md-10">
-                            <form:input id="inputPassword" path="password" type="text" class="form-control" required="required"/>
+                            <form:input id="inputPassword" path="password" type="password" class="form-control" required="required"/>
                             <form:errors path="password" cssClass="invalid-feedback d-block"/>
+
+                        </div>
+                    </div>
+                    <! ---------------- Repeat Password ---------------- -->
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-md-2 control-label">Password Repeat*</label>
+                        <div class="col-md-10">
+                            <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password" class="form-control" required="required"/>
+                            <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block"/>
 
                         </div>
                     </div>
@@ -67,14 +76,39 @@
                     </div>
 
                     <! ---------------- District ---------------- -->
+                    <! -- Muss noch angepasst werden um Districts in DropDown darzustellen -->
                     <div class="form-group">
                         <label for="inputDistrictId" class="col-md-2 control-label">District*</label>
                         <div class="col-md-10">
-                            <form:input id="inputDistrictId" path="districtId" type="text" class="form-control" required="required"/>
+                            <form:input id="inputDistrictId" path="districtId" type="number" class="form-control" required="required"/>
                             <form:errors path="districtId" cssClass="invalid-feedback d-block"/>
                         </div>
                     </div>
 
+                    <! ---------------- Gender ---------------- -->
+                    <div>
+                        <input type="radio" id="male" name="gender" value="${userdto.gender = "MALE"}">
+                        <label for="male">Male</label><br>
+                        <input type="radio" id="female" name="gender" value="${userdto.gender = "FEMALE"}">
+                        <label for="female">Female</label><br>
+                        <input type="radio" id="other" name="gender" value="${userdto.gender = "OTHER"}">
+                        <label for="other">Other</label>
+                    </div>
+
+                    <! ---------------- IsTeam ---------------- -->
+                    <div>
+                        <input type="checkbox" id="isTeam" name="isTeam" value="${userdto.isTeam()}">
+                        <label for="isTeam"> This is a team account</label><br>
+                    </div>
+
+                    <! ---------------- EMail ---------------- -->
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-md-2 control-label">Mail Address*</label>
+                        <div class="col-md-10">
+                            <form:input id="inputEmail" path="email" type="email" class="form-control" required="required"/>
+                            <form:errors path="email" cssClass="invalid-feedback d-block"/>
+                        </div>
+                    </div>
 
                     <! ---------------- buttons ---------------- -->
                     <div class="form-group">
