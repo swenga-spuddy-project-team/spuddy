@@ -2,16 +2,22 @@ package at.fhj.ima.spuddy.entity
 
 import javax.persistence.*
 
+
+enum class statusLikes {
+    LIKED,
+    DISLIKED
+}
+
 @Entity
 class Likes (
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     var idLikes: Int? = null,
     @Enumerated(EnumType.STRING)
-    var statusLikes: String? = null,
-    @OneToMany
+    var statusLikes: statusLikes? = null,
+    @ManyToOne
     var swipedUser: User,
-    @OneToMany
+    @ManyToOne
     var swipingUser: User
 
 ) : Comparable<Likes> {
