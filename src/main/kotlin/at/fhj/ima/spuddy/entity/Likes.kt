@@ -9,9 +9,9 @@ class Likes (
     var idLikes: Int? = null,
     @Enumerated(EnumType.STRING)
     var statusLikes: String? = null,
-    @OneToOne
+    @OneToMany
     var swipedUser: User,
-    @OneToOne
+    @OneToMany
     var swipingUser: User
 
 ) : Comparable<Likes> {
