@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository
 interface DistrictRepository : JpaRepository<District, Int> {
     @Query("FROM District where districtId = :districtId")
     fun findByDistrictId(@Param("districtId") districtId: Int): District
+
+    @Query("FROM District  where districtName = :districtName")
+    fun findByDistrictName(@Param("districtName") districtName: String): District
 }

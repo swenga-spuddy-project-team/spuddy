@@ -14,7 +14,7 @@ class UserDto (
     var lastName: String? = null,
     var firstName: String? = null,
     var dateOfBirth: LocalDate? = null,
-    var districtId: Int? = null,
+    var district: String? = null,
     var gender: Gender? = null,
     var email: String? = null,
     var isTeam: Boolean? = false) {

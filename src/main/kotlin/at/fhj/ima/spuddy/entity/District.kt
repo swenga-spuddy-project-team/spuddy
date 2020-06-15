@@ -7,6 +7,7 @@ class District (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var districtId: Int? = null,
+    @Column(nullable = false, unique = true)
     var districtName: String
 
     ) : Comparable<District> {

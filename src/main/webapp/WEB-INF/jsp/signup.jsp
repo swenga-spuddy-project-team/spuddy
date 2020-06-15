@@ -78,10 +78,12 @@
                     <! ---------------- District ---------------- -->
                     <! -- Muss noch angepasst werden um Districts in DropDown darzustellen -->
                     <div class="form-group">
-                        <label for="inputDistrictId" class="col-md-2 control-label">District*</label>
+                        <label for="inputDistrict" class="col-md-2 control-label">District*</label>
                         <div class="col-md-10">
-                            <form:input id="inputDistrictId" path="districtId" type="number" class="form-control" required="required"/>
-                            <form:errors path="districtId" cssClass="invalid-feedback d-block"/>
+                            <form:select path="district" itemValue="district" itemLabel="district" cssClass="form-control">
+                                <form:options items="${districtNames}" />
+                            </form:select>
+                            <form:errors path="district" cssClass="invalid-feedback d-block"/>
                         </div>
                     </div>
 

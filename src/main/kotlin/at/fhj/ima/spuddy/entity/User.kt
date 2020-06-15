@@ -37,8 +37,8 @@ class User(
     var firstName: String? = null,
     @Column(nullable = false)
     var dateOfBirth: LocalDate? = null,
-    @Column(nullable = false)
-    var districtId: Int? = null,
+    @ManyToOne
+    var district: District? = null,
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null,
     var descriptionText: String? = null,
