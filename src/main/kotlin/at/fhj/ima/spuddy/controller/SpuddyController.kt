@@ -59,7 +59,10 @@ class SpuddyController (val userRepository: UserRepository)  {
                     userRepository.save(newUser)
                 }
                 else {
+
                     bindingResult.rejectValue("password", "password.noMatchOnRepeat", "Passwords don't match")
+                    model.set("errorMessage", "Passwords did not match!")
+                    return signup(model)
                 }
             }
 
