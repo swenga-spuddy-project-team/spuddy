@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
 interface SportRepository : JpaRepository<Sport, Int> {
-    @Query("FROM Sport where name = :name")
-    fun findSportByName(@Param("name") name: String): Sport
+    @Query("FROM Sport where sportId = :sportId")
+    fun findSportById(@Param("sportId") sportId: Int): Sport
 }

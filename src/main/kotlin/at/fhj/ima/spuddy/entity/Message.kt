@@ -1,11 +1,10 @@
 package at.fhj.ima.spuddy.entity
 
-import org.springframework.format.annotation.DateTimeFormat
 import java.text.SimpleDateFormat
 import javax.persistence.*
 
 @Entity
-class Messages (
+class Message (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var messageId: Int? = null,
@@ -17,15 +16,15 @@ class Messages (
     @ManyToOne
     var receiverId: User
 
-) : Comparable<Messages> {
-    override fun compareTo(other: Messages): Int {
+) : Comparable<Message> {
+    override fun compareTo(other: Message): Int {
         return compareValues(messageId, other.messageId)
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as Messages
+        other as Message
         if (messageId != other.messageId) return false
         return true
     }

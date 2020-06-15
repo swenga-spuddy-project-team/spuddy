@@ -9,31 +9,31 @@ enum class statusLikes {
 }
 
 @Entity
-class Likes (
-    @Id
+class UserLike (
+        @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    var idLikes: Int? = null,
-    @Enumerated(EnumType.STRING)
+    var likesId: Int? = null,
+        @Enumerated(EnumType.STRING)
     var statusLikes: statusLikes? = null,
-    @ManyToOne
+        @ManyToOne
     var swipedUser: User,
-    @ManyToOne
+        @ManyToOne
     var swipingUser: User
 
-) : Comparable<Likes> {
-    override fun compareTo(other: Likes): Int {
-        return compareValues(idLikes, other.idLikes)
+) : Comparable<UserLike> {
+    override fun compareTo(other: UserLike): Int {
+        return compareValues(likesId, other.likesId)
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as Likes
-        if (idLikes != other.idLikes) return false
+        other as UserLike
+        if (likesId != other.likesId) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return idLikes.hashCode()
+        return likesId.hashCode()
     }
 }
