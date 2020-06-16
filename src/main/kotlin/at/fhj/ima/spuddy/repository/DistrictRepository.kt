@@ -12,5 +12,5 @@ interface DistrictRepository : JpaRepository<District, Int> {
     fun findByDistrictId(@Param("districtId") districtId: Int): District
 
     @Query("FROM District  where districtName = :districtName")
-    fun findByDistrictName(@Param("districtName") districtName: String): District
+    fun findByDistrictName(@Param("districtName") districtName: String): District?
 }

@@ -1,6 +1,7 @@
 package at.fhj.ima.spuddy.service
 
 import at.fhj.ima.spuddy.dto.UserDto
+import at.fhj.ima.spuddy.entity.Gender
 import at.fhj.ima.spuddy.entity.User
 import at.fhj.ima.spuddy.entity.UserRole
 import at.fhj.ima.spuddy.repository.DistrictRepository
