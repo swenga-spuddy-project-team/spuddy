@@ -7,11 +7,12 @@
 <%@taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
- <layout:page-container title="SignUp" activePage="signup">
+<layout:page-container title="SignUp" activePage="signup">
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <form:form modelAttribute="userdto"  class="needs-validation form-horizontal" method="post" action="addUser" novalidate="novalidate">
+            <form:form modelAttribute="userdto" class="needs-validation form-horizontal" method="post" action="addUser"
+                       novalidate="novalidate">
                 <fieldset>
                     <legend>SignUp</legend>
 
@@ -19,7 +20,8 @@
                     <div class="form-group">
                         <label for="inputUsername" class="col-md-2 control-label">Username*</label>
                         <div class="col-md-10">
-                            <form:input id="inputUsername" path="username" type="text" class="form-control" required="required"/>
+                            <form:input id="inputUsername" path="username" type="text" class="form-control"
+                                        required="required"/>
                             <form:errors path="username" cssClass="invalid-feedback d-block"/>
 
                         </div>
@@ -30,7 +32,8 @@
                     <div class="form-group">
                         <label for="inputPassword" class="col-md-2 control-label">Password*</label>
                         <div class="col-md-10">
-                            <form:input id="inputPassword" path="password" type="password" class="form-control" required="required"/>
+                            <form:input id="inputPassword" path="password" type="password" class="form-control"
+                                        required="required"/>
                             <form:errors path="password" cssClass="invalid-feedback d-block"/>
 
                         </div>
@@ -39,7 +42,8 @@
                     <div class="form-group">
                         <label for="inputPassword" class="col-md-2 control-label">Password Repeat*</label>
                         <div class="col-md-10">
-                            <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password" class="form-control" required="required"/>
+                            <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password"
+                                        class="form-control" required="required"/>
                             <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block"/>
 
                         </div>
@@ -50,7 +54,8 @@
                         <label for="inputFirstName" class="col-md-2 control-label">First
                             Name*</label>
                         <div class="col-md-10">
-                            <form:input id="inputFirstName" path="firstName" type="text" class="form-control" required="required"/>
+                            <form:input id="inputFirstName" path="firstName" type="text" class="form-control"
+                                        required="required"/>
                             <form:errors path="firstName" cssClass="invalid-feedback d-block"/>
 
                         </div>
@@ -61,7 +66,8 @@
                         <label for="inputLastName" class="col-md-2 control-label">Last
                             Name*</label>
                         <div class="col-md-10">
-                            <form:input id="inputLastName" path="lastName" type="text" class="form-control" required="required"/>
+                            <form:input id="inputLastName" path="lastName" type="text" class="form-control"
+                                        required="required"/>
                             <form:errors path="lastName" cssClass="invalid-feedback d-block"/>
                         </div>
                     </div>
@@ -70,7 +76,8 @@
                     <div class="form-group">
                         <label for="inputDate" class="col-md-2 control-label">Date*</label>
                         <div class="col-md-10">
-                            <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control" required="required" value="${user.dateOfBirth}"/>
+                            <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control"
+                                        required="required" value="${user.dateOfBirth}"/>
                             <form:errors path="dateOfBirth" cssClass="invalid-feedback d-block"/>
                         </div>
                     </div>
@@ -80,8 +87,9 @@
                     <div class="form-group">
                         <label for="inputDistrict" class="col-md-2 control-label">District*</label>
                         <div class="col-md-10">
-                            <form:select path="district" itemValue="district" itemLabel="district" cssClass="form-control">
-                                <form:options items="${districtNames}" />
+                            <form:select path="district" itemValue="district" itemLabel="district"
+                                         cssClass="form-control">
+                                <form:options items="${districtNames}"/>
                             </form:select>
                             <form:errors path="district" cssClass="invalid-feedback d-block"/>
                         </div>
@@ -107,7 +115,8 @@
                     <div class="form-group">
                         <label for="inputEmail" class="col-md-2 control-label">Mail Address*</label>
                         <div class="col-md-10">
-                            <form:input id="inputEmail" path="email" type="email" class="form-control" required="required"/>
+                            <form:input id="inputEmail" path="email" type="email" class="form-control"
+                                        required="required"/>
                             <form:errors path="email" cssClass="invalid-feedback d-block"/>
                         </div>
                     </div>
