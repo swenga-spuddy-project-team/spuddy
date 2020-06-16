@@ -77,7 +77,7 @@
                         <label for="inputDate" class="col-md-2 control-label">Date*</label>
                         <div class="col-md-10">
                             <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control"
-                                        required="required" value="${user.dateOfBirth}"/>
+                                        required="required"/>
                             <form:errors path="dateOfBirth" cssClass="invalid-feedback d-block"/>
                         </div>
                     </div>
@@ -98,11 +98,12 @@
                     <! ---------------- Gender ---------------- -->
                     <div>
                         <input type="radio" id="male" name="gender" value="${userdto.gender = "MALE"}">
-                        <label for="male">Male</label><br>
+                        <label for="male">Male</label>
                         <input type="radio" id="female" name="gender" value="${userdto.gender = "FEMALE"}">
-                        <label for="female">Female</label><br>
+                        <label for="female">Female</label>
                         <input type="radio" id="other" name="gender" value="${userdto.gender = "OTHER"}">
-                        <label for="other">Other</label>
+                        <label for="other">Other</label><br>
+                        <form:errors path="gender" cssClass="invalid-feedback d-block"/>
                     </div>
 
                     <! ---------------- IsTeam ---------------- -->

@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional
 class UserService (val userRepository: UserRepository,
                    val districtRepository: DistrictRepository) {
 
-    fun createNewUser(): UserDto{
+    fun createNewUser(): UserDto {
         val newUser = User(username = "", password = "", role = UserRole.ROLE_USER)
         return convertEntityToDto(newUser)
     }
 
-    fun findByUsername(username: String) : UserDto? {
+    fun findByUsername(username: String): UserDto? {
         if (userRepository.findByUsername(username) != null)
             return convertEntityToDto(userRepository.findByUsername(username))
         else
@@ -28,55 +28,88 @@ class UserService (val userRepository: UserRepository,
     }
 
     private fun convertEntityToDto(user: User?): UserDto {
-        if (user != null){
-            return UserDto(username = user.username,
-                    firstName = user.firstName,
-                    lastName = user.lastName,
-                    dateOfBirth= user.dateOfBirth,
-                    district = user.district?.districtName,
-                    gender = user.gender,
-                    email = user.email,
-                    isTeam = user.isTeam)
-        }
-        else
-            return UserDto(username = "",
-                           password = "")
+        if (user != null) {
+            val dto = UserDto(user.username)
+            dto.username = user.username
+            dto.firstName = user.firstName
+            dto.lastName = user.lastName
+            dto.dateOfBirth = user.dateOfBirth
+            dto.district = user.district?.districtName
+            dto.gender = user.gender
+            dto.email = user.email
+            dto.isTeam = user.isTeam
+            return dto
+        } else
+            return UserDto(username = "")
     }
 
     @Transactional
-    fun save(dto: UserDto){
+    fun save(dto: UserDto) {
         val user = convertDtoToEntity(dto)
-        if(user != null){
+        if (user != null) {
             userRepository.save(user)
-        }
-        else
-        {
+        } else {
             throw DataIntegrityViolationException("Error: User could not be saved because it is null!")
         }
     }
 
-    private fun convertDtoToEntity (dto: UserDto): User? {
-        // Prüfe ob ein Passwort mitgegeben wurde
-        // Prüfe ob der mitgegebene District in der Datenbank vorhanden ist
-        // Falls beides zutrifft erstelle einen User, falls nicht liefere null zurück
-        // Ansonsten wirf eine DataIntegrityViolation Exception
-        if((dto.password != null) && (districtRepository.findByDistrictName(dto.district!!) != null)) {
-            val user = User(
-                    username = dto.username,
-                    password = BCryptPasswordEncoder().encode(dto.password!!),
-                    firstName = dto.firstName,
-                    lastName = dto.lastName,
-                    dateOfBirth = dto.dateOfBirth,
-                    district = districtRepository.findByDistrictName(dto.district!!),
-                    gender = dto.gender,
-                    email = dto.email,
-                    isTeam = dto.isTeam
-            )
-            return user
+    private fun convertDtoToEntity(dto: UserDto): User? {
+        // User Daten Prüfung -> Bei Fehler wird DataIntegrityViolationException aufgerufen
+        // when entspricht verkettetem if-Statement bzw. Guards aus Haskell
+        // Geschwungene Klammern von "when" umfassen alle zu bearbeitenden Fäll
+        // Links vom Pfeil steht Condition
+        // Rechts vom Pfeil (bzw. im Klammerblock danach) steht was bei Eintreten des Falls passieren soll
+        when {
+            ((userRepository.findByUsername(dto.username) != null)) -> {
+                throw DataIntegrityViolationException("Error: usernameInUse already in use!")
+            }
+
+            (dto.password != dto.passwordrepeat) -> {
+                throw DataIntegrityViolationException("Error: passwordNotMatch passwords don't match!")
+            }
+
+            ((dto.password.isNullOrEmpty()) || (districtRepository.findByDistrictName(dto.district!!) == null)) -> {
+                throw DataIntegrityViolationException("Error: passwordNull password null or district not found!")
+            }
+
+            ((dto.password!!.length !in 2..30)) -> {
+                throw DataIntegrityViolationException("Error: passwordLength doesn't meet length requirements!")
+            }
+
+            (dto.firstName.isNullOrEmpty()) -> {
+                throw DataIntegrityViolationException("Error: firstName empty!")
+            }
+
+            (dto.lastName.isNullOrEmpty()) -> {
+                throw DataIntegrityViolationException("Error: lastName empty!")
+            }
+
+            (dto.dateOfBirth == null) -> {
+                throw DataIntegrityViolationException("Error: dateOfBirth empty!")
+            }
+
+            (dto.gender == null) -> {
+                throw DataIntegrityViolationException("Error: gender empty!")
+            }
+
+            (dto.email.isNullOrEmpty()) -> {
+                throw DataIntegrityViolationException("Error: email field empty!")
+            }
+            else -> {
+                val user = User(
+                        username = dto.username,
+                        password = BCryptPasswordEncoder().encode(dto.password!!),
+                        firstName = dto.firstName,
+                        lastName = dto.lastName,
+                        dateOfBirth = dto.dateOfBirth,
+                        district = districtRepository.findByDistrictName(dto.district!!),
+                        gender = dto.gender,
+                        email = dto.email,
+                        isTeam = dto.isTeam
+                )
+                return user
+            }
+
         }
-        else {
-            throw DataIntegrityViolationException("Error: password null or district not found!")
-        }
-        return null
     }
 }

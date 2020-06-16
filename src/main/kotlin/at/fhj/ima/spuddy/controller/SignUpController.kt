@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
+import javax.validation.ConstraintViolationException
 import javax.validation.Valid
 
 
@@ -25,7 +26,7 @@ class SignUpController (val userService: UserService,
                         val districtService: DistrictService){
     @RequestMapping("/signup", method = [RequestMethod.GET])
     fun signup(model: Model): String {
-        var userdto = UserDto(username = "", password = "", passwordrepeat = "")
+        val userdto = UserDto(username = "", password = "", passwordrepeat = "")
         model.set("userdto", userdto)
         model.set("districtNames", districtService.findAll().map { it.districtName })
         return "signup"
@@ -37,64 +38,90 @@ class SignUpController (val userService: UserService,
         if (bindingResult.hasErrors()) {
             return "signup"
         }
+        // Fange alle Fehler auf die mit Daten Integrität zu tun haben
         try {
-            // Todo: Dieser Bereich muss mehrfach und genau auf potentielle Input Fehler geprüft werden
-            //  Ein User darf unter keinen Umständen falsche Daten eingeben können - nicht nur durch ein Formular
-            //  sondern auch über eventuelle böse Requests
-            // Prüft ob der User bereits in der Datenbank vorhanden ist - falls nein können wir einen neuen User
-            // Mit diesem Usernamen anlegen
-            if (userService.findByUsername(userdto.username) == null) {
-
-                // Prüft ob die beiden Passwörter aus den Eingabefeldern übereinstimmen
-                if (userdto.password == userdto.passwordrepeat ) {
-                    if(!userdto.password.isNullOrEmpty()){
-                        if(userdto.password!!.length in 2..30) {
-                            // Versuche den neuen User hinzuzufügen, ist der District nicht vorhanden oder ungültig gib dies aus
-                            // und kehre auf die Signup Page zurück
-                            try {
-                                var newUser = userService.save(userdto)
-                            } catch (dive: DataIntegrityViolationException) {
-                                if (dive.message.orEmpty().contains("district")) {
-                                    bindingResult.rejectValue("district", "district.invalidSelection", "District invalid.")
-                                    model.set("errorMessage", "Invalid district!")
-                                    return "signup"
-                                } else {
-                                    throw dive;
-                                }
-                            }
-                        }
-                        else {
-                            bindingResult.rejectValue("password", "password.LengthRequirementNotMet",
-                                    "Password doesn't match length requirement min. 2 max. 30 characters")
-                            return "signup"
-                        }
-                    }
-                    else {
-                        bindingResult.rejectValue("password", "password.Empty", "Password field must not be empty")
-                        return "signup"
-                    }
-                } else {
-                    // Code unterhalb gibt eine Fehlermeldung beim "Error" Path des jeweiligen Formfelds aus
-                    // In diesem fall bei <form:errors path="password" cssClass="invalid-feedback d-block"/>
-                    // Im signup.jsp
-                    bindingResult.rejectValue("password", "password.noMatchOnRepeat", "Passwords don't match")
-                    // Code unterhalb gibt eine Fehlernachricht in Form eines Header Banners aus
-                    // model.set("errorMessage", "Passwords did not match!")
-                    return "signup"
+            // Fange alle Fehler auf die mit Constraint Violations zu tun haben
+            try {
+                userService.save(userdto)
+            }
+            catch(cve: ConstraintViolationException){
+                if(cve.message.orEmpty().contains("must be a past date")){
+                    bindingResult.rejectValue("dateOfBirth", "dateOfBirth.inFuture", "Date of birth must be in the past")
+                    return returnToSignup(model)
+                }
+                else {
+                    throw cve
                 }
             }
-            else {
-                throw DataIntegrityViolationException("Error: username already in use!")
-            }
         } catch (dive: DataIntegrityViolationException) {
-            if (dive.message.orEmpty().contains("username")) {
-                bindingResult.rejectValue("username", "username.alreadyInUse", "Username already in use");
-                return "signup"
-            } else {
-                throw dive;
+            // ERROR Messages related to username
+            when {
+            (dive.message.orEmpty().contains("username")) -> {
+                bindingResult.rejectValue("usernameInUse", "username.alreadyInUse", "Username already in use")
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to password
+            (dive.message.orEmpty().contains("passwordLength")) -> {
+                // Code unterhalb gibt eine Fehlermeldung beim "Error" Path des jeweiligen Formfelds aus
+                // In diesem fall bei <form:errors path="password" cssClass="invalid-feedback d-block"/>
+                // Im signup.jsp
+                bindingResult.rejectValue("password", "password.lengthRequirementNotMet", "Password must be between 2 and 30 characters")
+                // Code unterhalb gibt eine Fehlernachricht in Form eines Header Banners aus
+                // model.set("errorMessage", "Password does not meet length requirement!")
+                return returnToSignup(model)
+            }
+            (dive.message.orEmpty().contains("passwordNull")) -> {
+                bindingResult.rejectValue("password", "password.empty", "Password field must not be empty")
+                return returnToSignup(model)
+            }
+            (dive.message.orEmpty().contains("passwordNotMatch")) -> {
+                bindingResult.rejectValue("password", "password.notMatch", "Passwords don't match!")
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to district
+             (dive.message.orEmpty().contains("district")) -> {
+                bindingResult.rejectValue("district", "district.invalidSelection", "District invalid.")
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to firstName
+            (dive.message.orEmpty().contains("firstName")) -> {
+                bindingResult.rejectValue("firstName", "firstName.empty", "First name is required.")
+                model.set("districtNames", districtService.findAll().map { it.districtName })
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to lastName
+            (dive.message.orEmpty().contains("lastName")) -> {
+                bindingResult.rejectValue("lastName", "lastName.empty", "Last name is required.")
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to dateOfBirth
+            (dive.message.orEmpty().contains("dateOfBirth")) -> {
+                bindingResult.rejectValue("dateOfBirth", "dateOfBirth.empty", "Date of birth is required.")
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to gender
+            (dive.message.orEmpty().contains("gender")) -> {
+                bindingResult.rejectValue("gender", "gender.empty", "Gender is required.")
+                return returnToSignup(model)
+            }
+            // ERROR Messages related to email
+            (dive.message.orEmpty().contains("email")) -> {
+                bindingResult.rejectValue("email", "email.empty", "email is required.")
+                return returnToSignup(model)
+            }
+            else -> {
+                throw dive
             }
         }
+        }
+        // Todo: Redirect auf signup success Seite um User anzuzeigen das er sich erfolgreich angemeldet hat
         return "redirect:login"
+    }
+
+    // Return to signup page without reseting all the data
+    fun returnToSignup(model: Model) : String{
+        model.set("districtNames", districtService.findAll().map { it.districtName })
+        return "signup"
     }
 
     @RequestMapping("/addUser", method = [RequestMethod.GET])

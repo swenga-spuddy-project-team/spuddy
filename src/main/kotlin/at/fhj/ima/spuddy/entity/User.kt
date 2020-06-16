@@ -3,6 +3,7 @@ package at.fhj.ima.spuddy.entity
 import java.io.Serializable
 import java.time.LocalDate
 import javax.persistence.*
+import javax.validation.constraints.Past
 import javax.validation.constraints.Size
 
 
@@ -36,6 +37,7 @@ class User(
     @Column(nullable = false)
     var firstName: String? = null,
     @Column(nullable = false)
+    @field:Past
     var dateOfBirth: LocalDate? = null,
     @ManyToOne
     var district: District? = null,
