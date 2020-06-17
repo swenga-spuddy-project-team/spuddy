@@ -3,9 +3,11 @@ package at.fhj.ima.spuddy.entity
 import javax.persistence.*
 
 
-enum class statusLikes {
+enum class StatusLikes {
     LIKED,
-    DISLIKED
+    DISLIKED,
+    MATCHED,
+    BLOCKED
 }
 
 @Entity
@@ -14,7 +16,7 @@ class UserLike (
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     var likesId: Int? = null,
         @Enumerated(EnumType.STRING)
-    var statusLikes: statusLikes? = null,
+    var StatusLikes: StatusLikes? = null,
         @ManyToOne
     var swipedUser: User,
         @ManyToOne

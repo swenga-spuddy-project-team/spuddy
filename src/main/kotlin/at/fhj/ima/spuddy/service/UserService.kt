@@ -17,17 +17,14 @@ class UserService (val userRepository: UserRepository,
 
     fun createNewUser(): UserDto {
         val newUser = User(username = "", password = "", role = UserRole.ROLE_USER)
-        return convertEntityToDto(newUser)
+        return convertEntityToDto(newUser)!!
     }
 
     fun findByUsername(username: String): UserDto? {
-        if (userRepository.findByUsername(username) != null)
-            return convertEntityToDto(userRepository.findByUsername(username))
-        else
-            return null
+        return convertEntityToDto(userRepository.findByUsername(username))
     }
 
-    private fun convertEntityToDto(user: User?): UserDto {
+    private fun convertEntityToDto(user: User?): UserDto? {
         if (user != null) {
             val dto = UserDto(user.username)
             dto.username = user.username
@@ -40,7 +37,7 @@ class UserService (val userRepository: UserRepository,
             dto.isTeam = user.isTeam
             return dto
         } else
-            return UserDto(username = "")
+            return null
     }
 
     @Transactional
