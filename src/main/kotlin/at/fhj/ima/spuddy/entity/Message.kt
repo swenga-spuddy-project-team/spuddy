@@ -1,5 +1,7 @@
 package at.fhj.ima.spuddy.entity
 
+import org.hibernate.annotations.CreationTimestamp
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import javax.persistence.*
 
@@ -10,7 +12,8 @@ class Message (
     var messageId: Int? = null,
     @Column(nullable = false)
     var content: String? = null,
-    var timestamp: SimpleDateFormat? = null,
+    @CreationTimestamp
+    var timestamp : Timestamp? = null,
     @ManyToOne
     var senderId: User,
     @ManyToOne

@@ -1,5 +1,7 @@
 package at.fhj.ima.spuddy.entity
 
+import org.hibernate.annotations.CreationTimestamp
+import java.sql.Timestamp
 import javax.persistence.*
 
 
@@ -20,7 +22,9 @@ class UserLike (
         @ManyToOne
     var swipedUser: User,
         @ManyToOne
-    var swipingUser: User
+    var swipingUser: User,
+    @CreationTimestamp
+    var timestamp : Timestamp? = null
 
 ) : Comparable<UserLike> {
     override fun compareTo(other: UserLike): Int {

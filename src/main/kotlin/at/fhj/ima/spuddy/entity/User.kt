@@ -1,6 +1,9 @@
 package at.fhj.ima.spuddy.entity
 
+import org.hibernate.annotations.CreationTimestamp
 import java.io.Serializable
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.Past
@@ -49,7 +52,9 @@ class User(
     var isTeam: Boolean? = false,
     var profilePictureUrl: String? = null,
     @ManyToMany
-    var sport : Set<Sport>? = null
+    var sport : Set<Sport>? = null,
+    @CreationTimestamp
+    var timestamp : Timestamp? = null
     //  ManyToMany Beziehung zu Pictures oder hat jeder User nur ein einziges Bild? Falls ja -> ManyToOne,
     //  OneToMany Beziehung zu Likes Entity (Status wird dabei als enum Class dargestellt - also Liked, Disliked, not seen,
     //  ManyToMany Messages - jede Message enthält Absender und Empfänger, sowie
