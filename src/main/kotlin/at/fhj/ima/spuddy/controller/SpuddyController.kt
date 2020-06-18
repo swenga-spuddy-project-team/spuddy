@@ -21,18 +21,10 @@ import javax.validation.Valid
 class SpuddyController(val userRepository: UserRepository,
                        val districtRepository: DistrictRepository) {
 
-
     // Simple Request mapping that returns the home.jsp landing page
     @RequestMapping("/home", method = [RequestMethod.GET])
     fun home(model: Model, @RequestParam(required = false) search: String?): String {
         return "home"
-    }
-
-    // Simple Request mapping that will probably be later expanded to include the administrative functions
-    @Secured("ROLE_ADMIN")
-    @RequestMapping("/admin", method = [RequestMethod.GET])
-    fun admin(model: Model, @RequestParam(required = false) search: String?): String {
-        return "admin"
     }
 
     // Einfaches Test Mapping um etwa zu testen ob Form Submits etc. funktionieren
