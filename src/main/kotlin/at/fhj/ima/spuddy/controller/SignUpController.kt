@@ -58,7 +58,7 @@ class SignUpController (val userService: UserService,
             // ERROR Messages related to username
             when {
             (dive.message.orEmpty().contains("username")) -> {
-                bindingResult.rejectValue("usernameInUse", "username.alreadyInUse", "Username already in use")
+                bindingResult.rejectValue("username", "username.alreadyInUse", "Username already in use")
                 return returnToSignup(model)
             }
             // ERROR Messages related to password
@@ -108,6 +108,10 @@ class SignUpController (val userService: UserService,
             // ERROR Messages related to email
             (dive.message.orEmpty().contains("email")) -> {
                 bindingResult.rejectValue("email", "email.empty", "email is required.")
+                return returnToSignup(model)
+            }
+            (dive.message.orEmpty().contains("userInstantiation")) -> {
+                bindingResult.rejectValue("username", "user.generalError", "Unidentifiable error during user instantiation.")
                 return returnToSignup(model)
             }
             else -> {

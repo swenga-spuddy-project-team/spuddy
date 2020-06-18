@@ -93,18 +93,23 @@ class UserService (val userRepository: UserRepository,
                 throw DataIntegrityViolationException("Error: email field empty!")
             }
             else -> {
-                val user = User(
-                        username = dto.username,
-                        password = BCryptPasswordEncoder().encode(dto.password!!),
-                        firstName = dto.firstName,
-                        lastName = dto.lastName,
-                        dateOfBirth = dto.dateOfBirth,
-                        district = districtRepository.findByDistrictName(dto.district!!),
-                        gender = dto.gender,
-                        email = dto.email,
-                        isTeam = dto.isTeam
-                )
-                return user
+                try {
+                    val user = User(
+                            username = dto.username,
+                            password = BCryptPasswordEncoder().encode(dto.password!!),
+                            firstName = dto.firstName,
+                            lastName = dto.lastName,
+                            dateOfBirth = dto.dateOfBirth,
+                            district = districtRepository.findByDistrictName(dto.district!!),
+                            gender = dto.gender,
+                            email = dto.email,
+                            isTeam = dto.isTeam
+                    )
+                    return user
+                }
+                catch (ex : Exception){
+                    throw DataIntegrityViolationException("Error: userInstantiation failed!")
+                }
             }
 
         }
