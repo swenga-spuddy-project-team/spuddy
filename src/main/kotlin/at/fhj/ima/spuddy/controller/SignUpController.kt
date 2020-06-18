@@ -23,7 +23,8 @@ import javax.validation.Valid
 
 @Controller
 class SignUpController (val userService: UserService,
-                        val districtService: DistrictService){
+                        val districtService: DistrictService
+){
 
     @RequestMapping("/signup", method = [RequestMethod.GET])
     fun signup(model: Model): String {
