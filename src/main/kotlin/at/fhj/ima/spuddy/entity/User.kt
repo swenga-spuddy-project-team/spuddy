@@ -34,7 +34,7 @@ class User(
     @Size(min = 2, max = 30)
     var password: String,
     @Enumerated(EnumType.STRING)
-    var role: UserRole? = UserRole.ROLE_USER,
+    var role: UserRole = UserRole.ROLE_USER,
     @Column(nullable = false)
     var lastName: String? = null,
     @Column(nullable = false)

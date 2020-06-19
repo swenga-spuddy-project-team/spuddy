@@ -24,6 +24,14 @@ class UserService (val userRepository: UserRepository,
         return convertEntityToDto(userRepository.findByUsername(username))
     }
 
+    fun findRoleByUsername(username: String) : UserRole? {
+        val user = userRepository.findByUsername(username)
+        if (user != null)
+            return user.role
+        else
+            return null
+    }
+
     private fun convertEntityToDto(user: User?): UserDto? {
         if (user != null) {
             val dto = UserDto(user.username)

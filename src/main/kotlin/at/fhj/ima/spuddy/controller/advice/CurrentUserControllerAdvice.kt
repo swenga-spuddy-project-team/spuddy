@@ -1,6 +1,7 @@
 package at.fhj.ima.spuddy.controller.advice
 
 import at.fhj.ima.spuddy.repository.UserRepository
+import at.fhj.ima.spuddy.service.UserService
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.ui.Model
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 // Infos wie den aktuellen User ohne eine separate Implementierung für jedes Request Mapping
 // Ist zB relevant für die User HomePage um alle Informationen des jeweiligen Users abrufen zu können
 @ControllerAdvice
-class CurrentUserControllerAdvice(val userRepository: UserRepository) {
+class CurrentUserControllerAdvice(val userService: UserService) {
 
     @ModelAttribute
     fun addCurrentUser(model: Model) {
@@ -23,7 +24,9 @@ class CurrentUserControllerAdvice(val userRepository: UserRepository) {
         if(auth is AnonymousAuthenticationToken) {
             return
         }
-        val currentUser = userRepository.findByUsername(username)
+        val currentUser = userService.findByUsername(username)
+        val currentUserRole = userService.findRoleByUsername(username)
         model.addAttribute("currentUser", currentUser)
+        model.addAttribute("currentUserRole", currentUserRole)
     }
 }
