@@ -23,59 +23,50 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="swipe">Swipe <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="chat">Chat</a>
-                    <a class="nav-item nav-link" href="#">Disabled</a>
-                    <c:if test = "${salary > 2000}">
-                        <a class="nav-item nav-link" href="/admin">manage Sport</a>
-                        <a class="nav-item nav-link" href="/admin">manage District</a>
-                        <a class="nav-item nav-link" href="/admin">manage Profiles</a>
-                    </c:if>
-                </div>
-            </div>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+        <c:choose>
+            <c:when test="${activePage != 'signup'}">
+
+                <a class="nav-item nav-link item1${pageContext.request.requestURI == '/WEB-INF/jsp/swipe.jsp' ? ' active' : ''}" href="/swipe">Swipe <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link item2${pageContext.request.requestURI == '/WEB-INF/jsp/chat.jsp' ? ' active' : ''}" href="/chat">Chat</a>
+                <a class="nav-item nav-link item3${pageContext.request.requestURI == '/WEB-INF/jsp/home.jsp' ? ' active' : ''}" href="/home">Home</a>
+
+
+                <sec:authorize access="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-item nav-link item4${pageContext.request.requestURI == '/WEB-INF/jsp/admin.jsp' ? ' active' : ''}" href="/admin">manage Sport</a>
+                    <a class="nav-item nav-link item5${pageContext.request.requestURI == '/WEB-INF/jsp/admin2.jsp' ? ' active' : ''}" href="/admin">manage District</a>
+                    <a class="nav-item nav-link item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin3.jsp' ? ' active' : ''}" href="/admin">manage Profiles</a>
+                </sec:authorize>
+            </c:when>
+            <c:otherwise>
+                <a class="nav-item nav-link active" href="/signup">Signup <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/login">Login</a>
+            </c:otherwise>
+        </c:choose>
+        </div>
+        </div>
+
+
+        <c:if test="${activePage != 'signup'}">
+        </div>
+        </li>
+        </ul>
+
+        Logged in as ${currentUser.username} |
+        <form:form method="post" action="/logout">
+            <button class="btn btn-link" type="submit">Log Out</button>
+        </form:form>
+        </div>
+        </c:if>
         </nav>
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-            <a class="navbar-brand" href="/">Spuddy</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            <!-- Code below uses the "activePage" to set menus active for specific pages -->
-            <c:if test="${activePage == 'test' or activePage == 'editEmployee'}">
-                    <c:set var="employeesMenuActive">active</c:set>
-            </c:if>
-            <li class="nav-item ${employeesMenuActive} dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Employee
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/listEmployees">List Employee</a>
-            <sec:authorize access="hasAuthority('ROLE_ADMIN')">
-                    <a class="dropdown-item" href="/editEmployee">Create Employee</a>
-            </sec:authorize>
-            </div>
-            </li>
-            </ul>
-            Logged in as ${currentUser.username} |
-            <form:form method="post" action="/logout">
-                    <button class="btn btn-link" type="submit">Log Out</button>
-            </form:form>
-            </div>
-            </div>
-            </nav>
+        ${pageContext.request.requestURI}
 
-            <div class="container" role="main">
-            <div class="page-header">
-            <h1>Spuddy</h1>
-            </div>
+
+
+
 
             <!-- Messages ----------------------------------------------------------- -->
 

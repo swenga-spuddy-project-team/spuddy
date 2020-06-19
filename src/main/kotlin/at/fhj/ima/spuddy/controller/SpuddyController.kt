@@ -1,21 +1,12 @@
 package at.fhj.ima.spuddy.controller
 
-import at.fhj.ima.spuddy.entity.User
-import at.fhj.ima.spuddy.dto.UserDto
-import at.fhj.ima.spuddy.entity.UserRole
 import at.fhj.ima.spuddy.repository.DistrictRepository
 import at.fhj.ima.spuddy.repository.UserRepository
-import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.security.access.annotation.Secured
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.ui.set
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
 
 @Controller
 class SpuddyController(val userRepository: UserRepository,
@@ -30,7 +21,7 @@ class SpuddyController(val userRepository: UserRepository,
     // Einfaches Test Mapping um etwa zu testen ob Form Submits etc. funktionieren
     @RequestMapping("/test", method = [RequestMethod.GET])
     fun test(model: Model, @RequestParam(required = false) search: String?): String {
-        return "test"
+        return "swipe"
     }
 
     // Redirect to error page on problem

@@ -7,7 +7,7 @@
 <%@taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<layout:page-container title="Admin" activePage="signup">
+<layout:page-container title="Admin" activePage="admin">
 
     <div class="row">
         <form:form method="get" action="/generateTestData">
