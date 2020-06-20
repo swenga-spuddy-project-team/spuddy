@@ -64,62 +64,115 @@ class UserService (val userRepository: UserRepository,
         // Geschwungene Klammern von "when" umfassen alle zu bearbeitenden Fäll
         // Links vom Pfeil steht Condition
         // Rechts vom Pfeil (bzw. im Klammerblock danach) steht was bei Eintreten des Falls passieren soll
-        when {
-            ((userRepository.findByUsername(dto.username) != null)) -> {
-                throw DataIntegrityViolationException("Error: usernameInUse already in use!")
-            }
 
+        verifyUsername(dto)
+        verifyPassword(dto)
+        verifyFirstName(dto)
+        verifyLastName(dto)
+        verifyDate(dto)
+        verifyDistrict(dto)
+        verifyGender(dto)
+        verifyEmail(dto)
+
+        try {
+            val user = User(
+                    username = dto.username,
+                    password = BCryptPasswordEncoder().encode(dto.password!!),
+                    firstName = dto.firstName,
+                    lastName = dto.lastName,
+                    dateOfBirth = dto.dateOfBirth,
+                    district = districtRepository.findByDistrictName(dto.district!!),
+                    gender = dto.gender,
+                    email = dto.email,
+                    isTeam = dto.isTeam
+            )
+            return user
+        }
+        catch (ex : Exception){
+            throw DataIntegrityViolationException("Error: userInstantiation failed!")
+        }
+        }
+
+    fun verifyPassword(dto: UserDto){
+        when {
             (dto.password != dto.passwordrepeat) -> {
                 throw DataIntegrityViolationException("Error: passwordNotMatch passwords don't match!")
             }
 
-            ((dto.password.isNullOrEmpty()) || (districtRepository.findByDistrictName(dto.district!!) == null)) -> {
-                throw DataIntegrityViolationException("Error: passwordNull password null or district not found!")
+            (dto.password.isNullOrEmpty()) -> {
+                throw DataIntegrityViolationException("Error: passwordNull password null.")
             }
 
             ((dto.password!!.length !in 2..30)) -> {
                 throw DataIntegrityViolationException("Error: passwordLength doesn't meet length requirements!")
             }
+            else -> return
+        }
+    }
 
+    fun verifyUsername(dto:UserDto){
+        when {
+            ((userRepository.findByUsername(dto.username) != null)) -> {
+                throw DataIntegrityViolationException("Error: usernameInUse name already in use!")
+            }
+            (((dto.username) == null)) -> {
+                throw DataIntegrityViolationException("Error: usernameEmpty name field empty !")
+            }
+            else -> return
+        }
+    }
+
+    fun verifyFirstName(dto: UserDto){
+        when {
             (dto.firstName.isNullOrEmpty()) -> {
                 throw DataIntegrityViolationException("Error: firstName empty!")
             }
+            else -> return
+        }
+    }
 
+    fun verifyLastName(dto: UserDto){
+        when {
             (dto.lastName.isNullOrEmpty()) -> {
                 throw DataIntegrityViolationException("Error: lastName empty!")
             }
+            else -> return
+        }
+    }
 
+    fun verifyDistrict(dto: UserDto){
+        when {
+            (districtRepository.findByDistrictName(dto.district!!) == null) -> {
+                throw DataIntegrityViolationException("Error: district empty!")
+            }
+            else -> return
+        }
+    }
+
+    fun verifyDate(dto: UserDto) {
+        when {
             (dto.dateOfBirth == null) -> {
                 throw DataIntegrityViolationException("Error: dateOfBirth empty!")
             }
+            else -> return
+        }
+    }
 
+    fun verifyGender(dto: UserDto){
+        when {
             (dto.gender == null) -> {
                 throw DataIntegrityViolationException("Error: gender empty!")
             }
+            else -> return
+        }
+    }
 
+    fun verifyEmail(dto: UserDto){
+        when {
             (dto.email.isNullOrEmpty()) -> {
                 throw DataIntegrityViolationException("Error: email field empty!")
             }
-            else -> {
-                try {
-                    val user = User(
-                            username = dto.username,
-                            password = BCryptPasswordEncoder().encode(dto.password!!),
-                            firstName = dto.firstName,
-                            lastName = dto.lastName,
-                            dateOfBirth = dto.dateOfBirth,
-                            district = districtRepository.findByDistrictName(dto.district!!),
-                            gender = dto.gender,
-                            email = dto.email,
-                            isTeam = dto.isTeam
-                    )
-                    return user
-                }
-                catch (ex : Exception){
-                    throw DataIntegrityViolationException("Error: userInstantiation failed!")
-                }
-            }
-
+            else -> return
         }
     }
 }
