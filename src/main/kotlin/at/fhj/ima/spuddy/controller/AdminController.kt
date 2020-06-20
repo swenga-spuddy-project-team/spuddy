@@ -2,10 +2,7 @@ package at.fhj.ima.spuddy.controller
 
 import at.fhj.ima.spuddy.entity.District
 import at.fhj.ima.spuddy.entity.Sport
-import at.fhj.ima.spuddy.service.AdminService
-import at.fhj.ima.spuddy.service.DistrictService
-import at.fhj.ima.spuddy.service.SportService
-import at.fhj.ima.spuddy.service.UserService
+import at.fhj.ima.spuddy.service.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.access.annotation.Secured
 import org.springframework.stereotype.Controller
@@ -13,6 +10,7 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
@@ -21,7 +19,8 @@ import javax.validation.Valid
 class AdminController (val adminService: AdminService,
                        val userService: UserService,
                        val sportService: SportService,
-                       val districtService: DistrictService
+                       val districtService: DistrictService,
+                       val fileService: FileService
 ) {
     // Controller für alle administrativen Funktionen
 
@@ -61,13 +60,13 @@ class AdminController (val adminService: AdminService,
         val username = userService.findById(id)
         userService.delete(id)
         model.set("message", "$username was deleted!")
-        return "adminListSports"
+        return "adminListUsers"
     }
 
     @Secured("ROLE_ADMIN")
     @RequestMapping("adminCreateUser", method = [RequestMethod.POST])
     fun adminCreateUser(model: Model): String{
-        return "adminListUser"
+        return "adminListUsers"
     }
 
     @Secured("ROLE_ADMIN")
@@ -100,7 +99,26 @@ class AdminController (val adminService: AdminService,
     }
 
     @Secured("ROLE_ADMIN")
-    @RequestMapping("adminEditDistrict", method = [RequestMethod.GET])
+    @RequestMapping("/importDistrictData", method = [RequestMethod.POST])
+    fun importDistrictData(model: Model, @RequestParam("file") file: MultipartFile):String{
+
+        if (!file.isEmpty) {
+            try {
+                val newSportList = fileService.importDistrictJson(file)
+                newSportList.map { districtService.save(it) }
+            } catch (ex: Exception) {
+                model.set("errorMessage", "Error importing file! ")
+            }
+        }
+        else {
+            model.set("errorMessage", "Please provide a file for upload")
+        }
+        return "adminListDistricts"
+    }
+
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/adminEditDistrict", method = [RequestMethod.GET])
     fun editDistrict(model: Model, @RequestParam(required = false) districtId:Int?): String {
         if (districtId != null){
             model.set("district", districtService.findById(districtId))
@@ -144,11 +162,29 @@ class AdminController (val adminService: AdminService,
     }
 
     @Secured("ROLE_ADMIN")
+    @RequestMapping("/importSportData", method = [RequestMethod.POST])
+    fun importSportData(model: Model, @RequestParam("file") file: MultipartFile):String{
+
+        if (!file.isEmpty) {
+            try {
+                val newSportList = fileService.importSportJson(file)
+                newSportList.map { sportService.save(it) }
+            } catch (ex: Exception) {
+                model.set("errorMessage", "Error importing file! ")
+            }
+        }
+        else {
+            model.set("errorMessage", "Please provide a file for upload")
+        }
+        return "adminListSports"
+    }
+
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/adminDeleteSport", method = [RequestMethod.POST])
     fun deleteSport(model: Model, @RequestParam sportId: Int): String {
-        val description = sportService.findDescriptionById(sportId)
+        val name = sportService.findNameById(sportId)
         sportService.delete(sportId)
-        model.set("message", "$description was deleted!")
+        model.set("message", "$name was deleted!")
         return "adminListSports"
     }
 
@@ -171,8 +207,8 @@ class AdminController (val adminService: AdminService,
             sportService.save(sport)
         }
         catch (dive: DataIntegrityViolationException){
-            if(dive.message.orEmpty().contains("descriptionEmpty")) {
-                bindingResult.rejectValue("description", "descriptionEmpty", "Please enter a description")
+            if(dive.message.orEmpty().contains("nameEmpty")) {
+                bindingResult.rejectValue("name", "namenEmpty", "Please enter a name")
                 return "adminEditSport"
             }
             else {

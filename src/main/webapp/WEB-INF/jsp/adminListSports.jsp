@@ -12,12 +12,19 @@
 
 <layout:page-container title="Admin Sports" activePage="adminListSports">
 
-
-    <div class="col-md-10">
-        <p>
+    <row>
+        <div>
+            <form:form method="post" action="/importSportData" enctype="multipart/form-data">
             <a href="/adminEditSport" class="btn btn-success">Add Sport</a>
-        </p>
-    </div>
+
+                <button class="btn btn-success" type="submit">Import Sport Data</button>
+                <input type="file" name="file"/>
+            </form:form>
+            <form:errors path="importSportData" cssClass="invalid-feedback d-block"/>
+        </div>
+    </row>
+
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
 
@@ -32,9 +39,10 @@
                 <c:forEach items="${sports}" var="sport">
                     <tr>
                         <td>${sport.sportId}</td>
-                        <td>${sport.description}</td>
+                        <td>${sport.name}</td>
                         <td>
-                            <a href="adminEditSport?sportId=${sport.sportId}" type="submit" class="btn btn-xs btn-warning">Edit</a>
+                            <a href="adminEditSport?sportId=${sport.sportId}" type="submit"
+                               class="btn btn-xs btn-warning">Edit</a>
 
                         </td>
                         <td>

@@ -13,11 +13,19 @@
 <layout:page-container title="Admin Districts" activePage="adminListDistricts">
 
 
-    <div class="col-md-10">
-        <p>
-            <a href="/adminEditDistrict" class="btn btn-success">Add Sport</a>
-        </p>
-    </div>
+    <row>
+        <div>
+            <form:form method="post" action="/importSportData" enctype="multipart/form-data">
+                <a href="/adminEditDistrict" class="btn btn-success">Add District</a>
+
+                <button class="btn btn-success" type="submit">Import District Data</button>
+                <input type="file" name="file"/>
+            </form:form>
+            <form:errors path="importDistrictData" cssClass="invalid-feedback d-block"/>
+        </div>
+    </row>
+
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
 

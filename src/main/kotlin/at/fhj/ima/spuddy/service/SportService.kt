@@ -2,8 +2,12 @@ package at.fhj.ima.spuddy.service
 
 import at.fhj.ima.spuddy.entity.Sport
 import at.fhj.ima.spuddy.repository.SportRepository
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 
 @Service
 class SportService (val sportRepository: SportRepository){
@@ -16,7 +20,7 @@ class SportService (val sportRepository: SportRepository){
         sportRepository.delete(sportRepository.findSportById(id))
     }
 
-    fun findDescriptionById(id: Int): String {
+    fun findNameById(id: Int): String {
         return sportRepository.findSportById(id).description.orEmpty()
     }
 
@@ -29,9 +33,9 @@ class SportService (val sportRepository: SportRepository){
     }
 
     fun save(sport: Sport) {
-        if(sport.description.isNullOrEmpty())
+        if(sport.name.isNullOrEmpty())
         {
-            throw DataIntegrityViolationException("descriptionEmpty")
+            throw DataIntegrityViolationException("nameEmpty")
         }
         sportRepository.save(sport)
     }

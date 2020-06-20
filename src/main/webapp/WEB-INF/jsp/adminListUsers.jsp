@@ -13,11 +13,11 @@
 <layout:page-container title="Admin Sports" activePage="adminListSports">
 
 
-    <div class="col-md-10">
-        <p>
+    <div>
+
             <a href="/adminAddUser" class="btn btn-success">Add User</a>
-        </p>
     </div>
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
 
