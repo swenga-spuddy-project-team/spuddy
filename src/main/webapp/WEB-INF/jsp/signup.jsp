@@ -21,7 +21,7 @@
                         <label for="inputUsername" class="col-md-2 control-label">Username*</label>
                         <div class="col-md-10">
                             <form:input id="inputUsername" path="username" type="text" class="form-control"
-                                        required="required"/>
+                                        required="required" />
                             <form:errors path="username" cssClass="invalid-feedback d-block"/>
 
                         </div>
