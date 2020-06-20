@@ -14,6 +14,7 @@
             <title>${title}</title>
             <bootstrap:bootstrap-css/>
             <link rel="stylesheet" href="<c:url value="/css/custom.css"/>">
+            <script src="/js/custom.js"></script>
             </head>
             <body>
 
