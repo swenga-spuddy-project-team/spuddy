@@ -77,6 +77,18 @@ class UserService (val userRepository: UserRepository,
         }
     }
 
+
+    @Transactional
+    fun update(dto: UserDto) {
+        val user = convertDtoToEntity(dto)
+        if (user != null) {
+            userRepository.save(user)
+        } else {
+            throw DataIntegrityViolationException("Error: User could not be saved because it is null!")
+        }
+    }
+
+
     private fun convertDtoToEntity(dto: UserDto): User? {
         // User Daten Prüfung -> Bei Fehler wird DataIntegrityViolationException aufgerufen
         // when entspricht verkettetem if-Statement bzw. Guards aus Haskell
