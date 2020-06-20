@@ -35,7 +35,7 @@
 
                 <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                     <a class="nav-item nav-link item4${pageContext.request.requestURI == '/WEB-INF/jsp/adminListSports.jsp' ? ' active' : ''}" href="/adminListSports">Manage Sports</a>
-                    <a class="nav-item nav-link item5${pageContext.request.requestURI == '/WEB-INF/jsp/admin2.jsp' ? ' active' : ''}" href="/admin">Manage District</a>
+                    <a class="nav-item nav-link item5${pageContext.request.requestURI == '/WEB-INF/jsp/admin2.jsp' ? ' active' : ''}" href="/adminListDistricts">Manage District</a>
                     <a class="nav-item nav-link item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin3.jsp' ? ' active' : ''}" href="/adminListUsers">Manage Users</a>
                     <a class="nav-item nav-link item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin4.jsp' ? ' active' : ''}" href="/admin">Manage Settings</a>
                 </sec:authorize>
