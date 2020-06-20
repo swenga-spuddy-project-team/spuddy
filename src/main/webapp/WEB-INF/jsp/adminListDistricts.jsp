@@ -34,7 +34,7 @@
                         <td>${district.districtId}</td>
                         <td>${district.districtName}</td>
                         <td>
-                            <a href="adminEditSport?sportId=${district.districtId}" type="submit" class="btn btn-xs btn-warning">Edit</a>
+                            <a href="adminEditDistrict?districtId=${district.districtId}" type="submit" class="btn btn-xs btn-warning">Edit</a>
 
                         </td>
                         <td>
