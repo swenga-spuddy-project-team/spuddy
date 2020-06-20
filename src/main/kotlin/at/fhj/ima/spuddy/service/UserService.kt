@@ -129,6 +129,8 @@ class UserService (val userRepository: UserRepository,
         }
     }
 
+
+
     fun verifyUsername(dto:UserDto){
         when {
             ((userRepository.findByUsername(dto.username) != null)) -> {

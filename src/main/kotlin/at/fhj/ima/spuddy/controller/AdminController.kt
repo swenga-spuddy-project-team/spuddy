@@ -1,7 +1,9 @@
 package at.fhj.ima.spuddy.controller
 
+import at.fhj.ima.spuddy.entity.District
 import at.fhj.ima.spuddy.entity.Sport
 import at.fhj.ima.spuddy.service.AdminService
+import at.fhj.ima.spuddy.service.DistrictService
 import at.fhj.ima.spuddy.service.SportService
 import at.fhj.ima.spuddy.service.UserService
 import org.springframework.dao.DataIntegrityViolationException
@@ -18,7 +20,8 @@ import javax.validation.Valid
 @Controller
 class AdminController (val adminService: AdminService,
                        val userService: UserService,
-                       val sportService: SportService
+                       val sportService: SportService,
+                       val districtService: DistrictService
 ) {
     // Controller für alle administrativen Funktionen
 
@@ -62,6 +65,12 @@ class AdminController (val adminService: AdminService,
     }
 
     @Secured("ROLE_ADMIN")
+    @RequestMapping("adminCreateUser", method = [RequestMethod.POST])
+    fun adminCreateUser(model: Model): String{
+        return "adminListUser"
+    }
+
+    @Secured("ROLE_ADMIN")
     @RequestMapping("adminEditUser", method = [RequestMethod.GET])
     fun editUser(model: Model, @RequestParam(required = false) id:Int?): String {
         // Wird eine ID mitgegeben dann hol den passenden User aus der DB
@@ -80,6 +89,50 @@ class AdminController (val adminService: AdminService,
         }
         return "adminEditSport"
     }
+
+    // District bezogene Mappings
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/adminListDistricts", method = [RequestMethod.GET])
+    fun adminListDistricts(model: Model) : String {
+        model.set("districts", districtService.findAll())
+        return "adminListDistricts"
+    }
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("adminEditDistrict", method = [RequestMethod.GET])
+    fun editDistrict(model: Model, @RequestParam(required = false) districtId:Int?): String {
+        if (districtId != null){
+            model.set("district", districtService.findById(districtId))
+        }
+        else {
+            model.set("district", districtService.createNewDistrict(""))
+        }
+        return "adminEditDistrict"
+    }
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/adminChangeDistrict", method = [RequestMethod.POST])
+    fun changeDistrict(@ModelAttribute("district") @Valid district: District, bindingResult: BindingResult, model: Model): String {
+        try {
+            districtService.save(district)
+        }
+        catch (dive: DataIntegrityViolationException){
+            when {
+                (dive.message.orEmpty().contains("districtNameEmpty")) -> {
+                bindingResult.rejectValue("districtName", "districtNameEmpty", "Please enter a district name")
+                return "adminEditDistrict"
+            }
+                (dive.message.orEmpty().contains("districtAlreadyExists")) -> {
+                    bindingResult.rejectValue("districtName", "districtAlreadyExists", "A district with this name already exists")
+                    return "adminEditDistrict"
+                }
+            else -> throw dive
+            }
+        }
+        return "redirect:adminListDistricts"
+    }
+
 
     // Sport bezogene Mappings
     // Todo: Add JSON import functionality
