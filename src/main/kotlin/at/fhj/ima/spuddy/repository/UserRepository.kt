@@ -10,12 +10,15 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository : JpaRepository<User, Int> {
-    @Query("FROM User where username = :username")
+    @Query("from User where username = :username")
     fun findByUsername(@Param("username") username: String): User?
 
-    @Query("FROM User WHERE district = :district")
-    fun createMyDistrictList(@Param("district") district: District?): List<User>
+   // @Query("FROM User WHERE district = :district")
+  //  fun createMyDistrictList(@Param("district") district: District?): List<User>
 
-    @Query("FROM User WHERE sport = :sport")
-    fun createMySportList(@Param("sport") sport:Set<Sport>?): List<User>
+   // @Query("FROM User WHERE sport = :sport")
+   // fun createMySportList(@Param("sport") sport:Set<Sport>?): List<User>
+
+    @Query("from User where district = :district and sport = :sport")
+    fun sharedDistrictAndSports(@Param("district") district: District, @Param("sport") sport:Set<Sport>?): List<User>
 }
