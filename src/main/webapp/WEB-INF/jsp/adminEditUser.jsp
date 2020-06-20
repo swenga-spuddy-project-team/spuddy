@@ -9,40 +9,161 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<layout:page-container title="Admin Users" activePage="adminEditUser">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <c:choose>
-        <c:when test="${sport.sportId != null}">
-            <c:set var="sportIdActive">Edit sport with ID ${sport.sportId}</c:set>
-        </c:when>
-        <c:otherwise><c:set var="sportIdActive">Add new sport</c:set></c:otherwise>
-    </c:choose>
-
-    <div class="col-md-4">
-        <h2>${sportIdActive}</h2>
+<div class="avatar-wrapper">
+    <img class="profile-pic" src="" />
+    <div class="upload-button">
+        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
     </div>
+    <input class="file-upload" type="file" accept="image/*"/>
+</div>
 
-    <%--@elvariable id="sport" type="kotlin"--%>
-    <form:form modelAttribute="sport" class="needs-validation form-horizontal" method="post" action="adminChangeSport"
-               novalidate="novalidate">
-        <fieldset>
-            <input type="hidden" name="sportId" value="<c:out value="${sport.sportId}"/>">
-            <div class="form-group">
-                <label for="inputSportDescription" class="col-md-6 control-label">Sport Name*</label>
-                <div class="col-md-6">
-                    <form:input id="inputSportDescription" path="description" type="text" class="form-control"
-                                required="required"/>
-                    <form:errors path="description" cssClass="invalid-feedback d-block"/>
+---------------------------
+
+<c:if test= "${userdto.username != null}">
+    <c:set var="notEditable">true</c:set>
+</c:if>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Your Profile</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form:form modelAttribute="userdto" class="needs-validation form-horizontal" method="post" action="adminEditUser"
+                                       novalidate="novalidate">
+                                <! ---------------- user name ---------------- -->
+                                <div class="form-group row">
+                                    <label for="username" class="col-4 col-form-label">User Name</label>
+                                    <div class="col-8">
+                                        <form:input id="inputUsername" path="username" type="text" class="form-control"
+                                                    required="required" value="${userdto.username}" readonly= "${notEditable}"/>
+                                        <form:errors path="username" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+                                <! ---------------- first name ---------------- -->
+
+                                <div class="form-group row">
+                                    <label for="inputFirstName" class="col-4 col-form-label">First Name</label>
+                                    <div class="col-8">
+                                        <form:input id="inputFirstName" path="firstName" type="text" class="form-control"
+                                                    required="required" value="${userdto.firstName}" readonly= "${notEditable}"/>
+                                        <form:errors path="firstName" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+                                <! ---------------- lastname ---------------- -->
+                                <div class="form-group row">
+                                    <label for="inputLastName" class="col-4 col-form-label">Last Name</label>
+                                    <div class="col-8">
+                                        <form:input id="inputLastName" path="lastName" type="text" class="form-control"
+                                                    required="required"  value="${userdto.lastName}" readonly= "${notEditable}" />
+                                        <form:errors path="lastName" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+
+                                <! ---------------- dateOfBirth ---------------- -->
+                                <div class="form-group row">
+                                    <label for="inputDate" class="col-4 col-form-label">Date</label>
+                                    <div class="col-8">
+                                        <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control"
+                                                    required="required" value="${userdto.dateOfBirth}" readonly= "${notEditable}" />
+                                        <form:errors path="dateOfBirth" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+
+                                <! ---------------- Gender ---------------- -->
+                                <div class="form-group row">
+                                    <label for="male" class="col-4 col-form-label">Gender</label>
+                                    <div>
+                                        <input type="radio" id="male" name="gender" value="${userdto.gender = "MALE"}" readonly= "${notEditable}">
+                                        <label for="male">Male</label>
+                                        <input type="radio" id="female" name="gender" value="${userdto.gender = "FEMALE"}" readonly= "${notEditable}">
+                                        <label for="female">Female</label>
+                                        <input type="radio" id="other" name="gender" value="${userdto.gender = "OTHER"}" readonly= "${notEditable}">
+                                        <label for="other">Other</label><br>
+                                        <form:errors path="gender" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+
+                                <! ---------------- District ---------------- -->
+
+                                <div class="form-group row">
+                                    <label for="select" class="col-4 col-form-label">District</label>
+                                    <div class="col-8">
+                                        <form:select path="district" itemValue="district" itemLabel="district" readonly= "${notEditable}"
+                                                     cssClass="form-control">
+                                            <form:options items="${districtNames}"/>
+                                        </form:select>
+                                        <form:errors path="district" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                    <! ---------------- email ---------------- -->
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Email</label>
+                                    <div class="col-8">
+                                        <form:input id="inputEmail" path="email" type="email" class="form-control" readonly= "${notEditable}"
+                                                    required="required" value="${userdto.email}"/>
+                                        <form:errors path="email" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+                                <! ---------------- description ---------------- -->
+                                <div class="form-group row">
+                                    <label for="ProfileDescription" class="col-4 col-form-label">ProfileDescription</label>
+                                    <div class="col-8">
+                                        <textarea id="ProfileDescription" name="ProfileDescription" cols="40" rows="4" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <! ---------------- new password ---------------- -->
+
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-4 col-form-label">New Password</label>
+                                    <div class="col-8">
+                                        <form:input id="inputPassword" path="password" type="password" class="form-control"/>
+                                        <form:errors path="password" cssClass="invalid-feedback d-block" readonly= "${notEditable}" />
+                                    </div>
+                                </div>
+                                <! ---------------- Repeat Password ---------------- -->
+
+
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-4 col-form-label">New Password</label>
+                                    <div class="col-8">
+                                        <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password" class="form-control"/>
+                                        <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block" readonly= "${notEditable}" />
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <c:if test= "${employee.username != null}">
+                                            <button name="submit" type="submit" class="btn btn-primary">Update Profile</button>
+                                        </c:if>
+                                        <a href="/adminListUsers" class="btn btn-default">Cancel</a>
+                                    </div>
+                                </div>
+                            </form:form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <div class="form-group">
-                <div class="col-md-10 col-md-offset-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="adminListSports" class="btn btn-default">Cancel</a>
-                </div>
-            </div>
-        </fieldset>
-    </form:form>
 
 </layout:page-container>

@@ -23,6 +23,7 @@
         <input class="file-upload" type="file" accept="image/*"/>
     </div>
 
+
 ---------------------------
 
 <div class="container">
@@ -70,9 +71,9 @@
                                 </div>
 
                                     <! ---------------- dateOfBirth ---------------- -->
-                                    <div class="form-group">
-                                        <label for="inputDate" class="col-md-2 control-label">Date*</label>
-                                        <div class="col-md-10">
+                                    <div class="form-group row">
+                                        <label for="inputDate" class="col-4 col-form-label">Date</label>
+                                        <div class="col-8">
                                             <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control"
                                                         required="required" value="${currentUser.dateOfBirth}"/>
                                             <form:errors path="dateOfBirth" cssClass="invalid-feedback d-block"/>
@@ -80,6 +81,8 @@
                                     </div>
 
                                     <! ---------------- Gender ---------------- -->
+                                <div class="form-group row">
+                                    <label for="male" class="col-4 col-form-label">Gender</label>
                                     <div>
                                         <input type="radio" id="male" name="gender" value="${currentUser.gender = "MALE"}">
                                         <label for="male">Male</label>
@@ -89,6 +92,7 @@
                                         <label for="other">Other</label><br>
                                         <form:errors path="gender" cssClass="invalid-feedback d-block"/>
                                     </div>
+                                </div>
 
                                     <! ---------------- District ---------------- -->
 
@@ -107,7 +111,7 @@
                                     <label for="email" class="col-4 col-form-label">Email</label>
                                     <div class="col-8">
                                         <form:input id="inputEmail" path="email" type="email" class="form-control"
-                                                    required="required"/>
+                                                    required="required" value="${currentUser.email}"/>
                                         <form:errors path="email" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
@@ -128,15 +132,18 @@
                                     </div>
                                 </div>
                                     <! ---------------- Repeat Password ---------------- -->
-                                    <div class="form-group">
-                                        <label for="inputPasswordRepeat" class="col-md-2 control-label">Password Repeat*</label>
-                                        <div class="col-md-10">
-                                            <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password"
-                                                        class="form-control" />
-                                            <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block"/>
 
-                                        </div>
+
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-4 col-form-label">New Password</label>
+                                    <div class="col-8">
+                                        <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password" class="form-control"/>
+                                        <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block"/>
                                     </div>
+                                </div>
+
+
+
 
                                 <div class="form-group row">
                                     <div class="offset-4 col-8">
@@ -152,6 +159,8 @@
         </div>
     </div>
 </div>
+
+
 
 
     </layout:page-container>
