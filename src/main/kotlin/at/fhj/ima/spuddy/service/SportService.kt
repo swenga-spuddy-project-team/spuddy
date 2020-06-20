@@ -31,7 +31,7 @@ class SportService (val sportRepository: SportRepository){
     fun save(sport: Sport) {
         if(sport.description.isNullOrEmpty())
         {
-            throw DataIntegrityViolationException("description empty!")
+            throw DataIntegrityViolationException("descriptionEmpty")
         }
         sportRepository.save(sport)
     }

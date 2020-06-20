@@ -18,14 +18,15 @@
         <c:otherwise><c:set var="sportIdActive">Add new sport</c:set></c:otherwise>
     </c:choose>
 
+    <div class="col-md-4">
+        <h2>${sportIdActive}</h2>
+    </div>
+
     <%--@elvariable id="sport" type="kotlin"--%>
     <form:form modelAttribute="sport" class="needs-validation form-horizontal" method="post" action="adminChangeSport"
                novalidate="novalidate">
         <fieldset>
-            <div class="col-md-4">
-                <h2>${sportIdActive}</h2>
-            </div>
-
+            <input type="hidden" name="sportId" value="<c:out value="${sport.sportId}"/>">
             <div class="form-group">
                 <label for="inputSportDescription" class="col-md-6 control-label">Sport Name*</label>
                 <div class="col-md-6">

@@ -78,7 +78,7 @@ class AdminController (val adminService: AdminService,
         catch (dive: DataIntegrityViolationException){
             if(dive.message.orEmpty().contains("descriptionEmpty")) {
                 bindingResult.rejectValue("description", "descriptionEmpty", "Please enter a description")
-                return "redirect:/adminEditSport?sportId=" + sport.sportId
+                return "adminEditSport"
             }
             else {
                 throw dive
