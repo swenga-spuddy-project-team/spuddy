@@ -20,6 +20,7 @@ class AdminController (val adminService: AdminService,
                        val userService: UserService,
                        val sportService: SportService
 ) {
+    // Controller für alle administrativen Funktionen
 
     // Simple Request mapping that will probably be later expanded to include the administrative functions
     @Secured("ROLE_ADMIN")
@@ -41,6 +42,47 @@ class AdminController (val adminService: AdminService,
         return "admin"
     }
 
+    // User bezogene Mappings
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/adminListUsers", method = [RequestMethod.GET])
+    fun adminListUsers(model: Model) : String {
+        model.set("userdtos", userService.findAll())
+
+        return "adminListUsers"
+    }
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/adminDeleteUser", method = [RequestMethod.POST])
+    fun deleteUser(model: Model, @RequestParam id: Int): String {
+        val username = userService.findById(id)
+        userService.delete(id)
+        model.set("message", "$username was deleted!")
+        return "adminListSports"
+    }
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("adminEditUser", method = [RequestMethod.GET])
+    fun editUser(model: Model, @RequestParam(required = false) id:Int?): String {
+        // Wird eine ID mitgegeben dann hol den passenden User aus der DB
+        // Wird mit der ID nichts gefunden erstelle einen neuen User
+        if (id != null){
+            val userdto = userService.findById(id)!!
+            if (userdto != null){
+                model.set("userdto", userdto)
+            }
+            else {
+                model.set("userdto", userService.createNewUser())
+            }
+        }
+        else {
+            model.set("userdto", userService.createNewUser())
+        }
+        return "adminEditSport"
+    }
+
+    // Sport bezogene Mappings
+    // Todo: Add JSON import functionality
     @Secured("ROLE_ADMIN")
     @RequestMapping("/adminListSports", method = [RequestMethod.GET])
     fun adminListSports(model: Model) : String {
