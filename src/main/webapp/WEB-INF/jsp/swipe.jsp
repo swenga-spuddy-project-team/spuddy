@@ -8,7 +8,38 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-
 <layout:page-container title="swipe" activePage="swipe">
-    <h1>Spuddy - Swipe your Sport Buddy</h1>
-    </layout:page-container>
+    <h1>Spuddy </br> Let's swipe your Sport Buddy</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-danger">DISLIKE</button>
+            </div>
+            <div class="col-6">
+                <div class="container" id="randomUser">
+                    <div>
+                        <img src="..." class="img-fluid" alt="Responsive image">
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                District
+                            </div>
+                            <div class="col-sm">
+                                Username
+                            </div>
+                            <div class="col-sm">
+                                Age
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        User INFO
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-success">LIKE</button>
+            </div>
+    </div>
+</layout:page-container>
