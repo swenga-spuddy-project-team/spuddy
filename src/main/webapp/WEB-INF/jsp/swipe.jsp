@@ -10,5 +10,5 @@
 
 
 <layout:page-container title="swipe" activePage="swipe">
-    <h1>was geht das ist die test pasge und markus mag hentai</h1>
+    <h1>Spuddy - Swipe your Sport Buddy</h1>
     </layout:page-container>

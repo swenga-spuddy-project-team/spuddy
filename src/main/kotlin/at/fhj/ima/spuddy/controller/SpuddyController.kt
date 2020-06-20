@@ -18,12 +18,6 @@ class SpuddyController(val userRepository: UserRepository,
         return "home"
     }
 
-    // Einfaches Test Mapping um etwa zu testen ob Form Submits etc. funktionieren
-    @RequestMapping("/test", method = [RequestMethod.GET])
-    fun test(model: Model, @RequestParam(required = false) search: String?): String {
-        return "swipe"
-    }
-
     // Redirect to error page on problem
     @ExceptionHandler(Exception::class)
     fun handleError(req: HttpServletRequest, ex: Exception): ModelAndView {
