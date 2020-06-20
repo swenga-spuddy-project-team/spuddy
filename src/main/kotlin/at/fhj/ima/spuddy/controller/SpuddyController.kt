@@ -12,11 +12,7 @@ import javax.servlet.http.HttpServletRequest
 class SpuddyController(val userRepository: UserRepository,
                        val districtRepository: DistrictRepository) {
 
-    // Simple Request mapping that returns the home.jsp landing page
-    @RequestMapping("/home", method = [RequestMethod.GET])
-    fun home(model: Model, @RequestParam(required = false) search: String?): String {
-        return "home"
-    }
+
 
     // Redirect to error page on problem
     @ExceptionHandler(Exception::class)

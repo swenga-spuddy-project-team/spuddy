@@ -38,57 +38,60 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form:form modelAttribute="userdto" class="needs-validation form-horizontal" method="post" action="updateUser"
+                            <form:form modelAttribute="currentUser" class="needs-validation form-horizontal" method="post" action="updateUser"
                                        novalidate="novalidate">
                                 <! ---------------- user name ---------------- -->
                                 <div class="form-group row">
                                     <label for="username" class="col-4 col-form-label">User Name</label>
                                     <div class="col-8">
                                         <form:input id="inputUsername" path="username" type="text" class="form-control"
-                                                    required="required" value="load value here"/>
-                                        <form:errors path="username" cssClass="invalid-feedback d-block"/>                                    </div>
+                                                    required="required" value="${currentUser.username}"/>
+                                        <form:errors path="username" cssClass="invalid-feedback d-block"/>
+                                    </div>
                                 </div>
                                 <! ---------------- first name ---------------- -->
 
                                 <div class="form-group row">
-                                    <label for="name" class="col-4 col-form-label">First Name</label>
+                                    <label for="inputFirstName" class="col-4 col-form-label">First Name</label>
                                     <div class="col-8">
                                         <form:input id="inputFirstName" path="firstName" type="text" class="form-control"
-                                                    required="required"/>
-                                        <form:errors path="firstName" cssClass="invalid-feedback d-block"/>                                </div>
+                                                    required="required" value="${currentUser.firstName}"/>
+                                        <form:errors path="firstName" cssClass="invalid-feedback d-block"/>
+                                    </div>
                                 </div>
                                 <! ---------------- lastname ---------------- -->
                                 <div class="form-group row">
-                                    <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                    <label for="inputLastName" class="col-4 col-form-label">Last Name</label>
                                     <div class="col-8">
                                         <form:input id="inputLastName" path="lastName" type="text" class="form-control"
-                                                    required="required"/>
+                                                    required="required"  value="${currentUser.lastName}"/>
                                         <form:errors path="lastName" cssClass="invalid-feedback d-block"/>
                                     </div>
+                                </div>
 
                                     <! ---------------- dateOfBirth ---------------- -->
                                     <div class="form-group">
                                         <label for="inputDate" class="col-md-2 control-label">Date*</label>
                                         <div class="col-md-10">
                                             <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control"
-                                                        required="required"/>
+                                                        required="required" value="${currentUser.dateOfBirth}"/>
                                             <form:errors path="dateOfBirth" cssClass="invalid-feedback d-block"/>
                                         </div>
                                     </div>
 
                                     <! ---------------- Gender ---------------- -->
                                     <div>
-                                        <input type="radio" id="male" name="gender" value="${userdto.gender = "MALE"}">
+                                        <input type="radio" id="male" name="gender" value="${currentUser.gender = "MALE"}">
                                         <label for="male">Male</label>
-                                        <input type="radio" id="female" name="gender" value="${userdto.gender = "FEMALE"}">
+                                        <input type="radio" id="female" name="gender" value="${currentUser.gender = "FEMALE"}">
                                         <label for="female">Female</label>
-                                        <input type="radio" id="other" name="gender" value="${userdto.gender = "OTHER"}">
+                                        <input type="radio" id="other" name="gender" value="${currentUser.gender = "OTHER"}">
                                         <label for="other">Other</label><br>
                                         <form:errors path="gender" cssClass="invalid-feedback d-block"/>
                                     </div>
 
                                     <! ---------------- District ---------------- -->
-                                </div>
+
                                 <div class="form-group row">
                                     <label for="select" class="col-4 col-form-label">District</label>
                                     <div class="col-8">
@@ -105,7 +108,9 @@
                                     <div class="col-8">
                                         <form:input id="inputEmail" path="email" type="email" class="form-control"
                                                     required="required"/>
-                                        <form:errors path="email" cssClass="invalid-feedback d-block"/>                                    </div>
+                                        <form:errors path="email" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
                                     <! ---------------- description ---------------- -->
                                 <div class="form-group row">
                                     <label for="ProfileDescription" class="col-4 col-form-label">ProfileDescription</label>
@@ -118,16 +123,16 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-4 col-form-label">New Password</label>
                                     <div class="col-8">
-                                        <form:input id="inputPassword" path="password" type="password" class="form-control"
-                                                    required="required"/>
-                                        <form:errors path="password" cssClass="invalid-feedback d-block"/>                                    </div>
+                                        <form:input id="inputPassword" path="password" type="password" class="form-control"/>
+                                        <form:errors path="password" cssClass="invalid-feedback d-block"/>
+                                    </div>
                                 </div>
                                     <! ---------------- Repeat Password ---------------- -->
                                     <div class="form-group">
                                         <label for="inputPasswordRepeat" class="col-md-2 control-label">Password Repeat*</label>
                                         <div class="col-md-10">
                                             <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password"
-                                                        class="form-control" required="required"/>
+                                                        class="form-control" />
                                             <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block"/>
 
                                         </div>
@@ -138,7 +143,7 @@
                                         <button name="submit" type="submit" class="btn btn-primary">Update Profile</button>
                                     </div>
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                     </div>
 
@@ -147,4 +152,6 @@
         </div>
     </div>
 </div>
+
+
     </layout:page-container>
