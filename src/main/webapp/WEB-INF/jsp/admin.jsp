@@ -10,10 +10,12 @@
 <layout:page-container title="Admin" activePage="admin">
 
     <div class="row">
-        <form:form method="get" action="/generateTestData">
-            <button class="btn btn-success" type="submit">Generate Test Data</button>
-        </form:form>
-        <form:errors path="generateTestData" cssClass="invalid-feedback d-block"/>
+        <div class="col-md-10 col-md-offset-1">
+            <form:form method="get" action="/generateTestData">
+                <button class="btn btn-success" type="submit">Generate Test Data</button>
+            </form:form>
+            <form:errors path="generateTestData" cssClass="invalid-feedback d-block"/>
+        </div>
     </div>
 
 </layout:page-container>

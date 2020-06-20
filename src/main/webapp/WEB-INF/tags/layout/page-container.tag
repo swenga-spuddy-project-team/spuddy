@@ -34,9 +34,10 @@
 
 
                 <sec:authorize access="hasAuthority('ROLE_ADMIN')">
-                    <a class="nav-item nav-link item4${pageContext.request.requestURI == '/WEB-INF/jsp/admin.jsp' ? ' active' : ''}" href="/admin">manage Sport</a>
-                    <a class="nav-item nav-link item5${pageContext.request.requestURI == '/WEB-INF/jsp/admin2.jsp' ? ' active' : ''}" href="/admin">manage District</a>
-                    <a class="nav-item nav-link item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin3.jsp' ? ' active' : ''}" href="/admin">manage Profiles</a>
+                    <a class="nav-item nav-link item4${pageContext.request.requestURI == '/WEB-INF/jsp/adminListSports.jsp' ? ' active' : ''}" href="/adminListSports">Manage Sports</a>
+                    <a class="nav-item nav-link item5${pageContext.request.requestURI == '/WEB-INF/jsp/admin2.jsp' ? ' active' : ''}" href="/admin">Manage District</a>
+                    <a class="nav-item nav-link item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin3.jsp' ? ' active' : ''}" href="/admin">Manage Users</a>
+                    <a class="nav-item nav-link item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin4.jsp' ? ' active' : ''}" href="/admin">Manage Settings</a>
                 </sec:authorize>
             </c:when>
             <c:otherwise>
@@ -61,11 +62,7 @@
         </c:if>
         </nav>
 
-
-        ${pageContext.request.requestURI}
-
-
-
+        <div class="container" role="main">
 
 
             <!-- Messages ----------------------------------------------------------- -->
