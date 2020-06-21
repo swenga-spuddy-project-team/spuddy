@@ -26,4 +26,5 @@ class UserDto (
     var isTeam: Boolean? = false
     var profilePicture: File? = null
     var profilePicturePath: Path? = null
+    var descriptionText: String? = null
 }

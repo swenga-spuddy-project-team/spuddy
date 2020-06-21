@@ -67,6 +67,7 @@ class UserService (val userRepository: UserRepository,
             if (user.profilePicture != null) {
                 dto.profilePicturePath = Paths.get("/files/" + user.profilePicture!!.id!!)
             }
+            dto.descriptionText = user.descriptionText
             return dto
         } else
             return null
@@ -83,15 +84,7 @@ class UserService (val userRepository: UserRepository,
     }
 
 
-    @Transactional
-    fun update(dto: UserDto) {
-        val user = convertDtoToEntity(dto)
-        if (user != null) {
-            userRepository.save(user)
-        } else {
-            throw DataIntegrityViolationException("Error: User could not be saved because it is null!")
-        }
-    }
+
 
 
     private fun convertDtoToEntity(dto: UserDto): User? {
@@ -111,7 +104,6 @@ class UserService (val userRepository: UserRepository,
         verifyEmail(dto)
 
         //Todo: Verify Profilepicture
-
         try {
             val user = User(
                     username = dto.username,
@@ -123,14 +115,16 @@ class UserService (val userRepository: UserRepository,
                     gender = dto.gender,
                     email = dto.email,
                     isTeam = dto.isTeam,
-                    profilePicture = dto.profilePicture
+                    profilePicture = dto.profilePicture,
+                    descriptionText = dto.descriptionText
             )
             return user
         }
         catch (ex : Exception){
             throw DataIntegrityViolationException("Error: userInstantiation failed!")
         }
-        }
+    }
+
 
     fun verifyPassword(dto: UserDto){
         when {

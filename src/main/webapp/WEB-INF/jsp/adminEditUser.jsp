@@ -123,18 +123,22 @@
                                 <div class="form-group row">
                                     <label for="email" class="col-4 col-form-label">Email</label>
                                     <div class="col-8">
-                                        <form:input id="inputEmail" path="email" type="email" class="form-control" readonly= "${notEditable}"
+                                        <form:input id="inputEmail" path="email" type="email" class="form-control" readonly="${notEditable}"
                                                     required="required" value="${userdto.email}"/>
                                         <form:errors path="email" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
                                 <! ---------------- description ---------------- -->
                                 <div class="form-group row">
-                                    <label for="ProfileDescription" class="col-4 col-form-label">ProfileDescription</label>
+                                    <label for="inputDescriptionText" class="col-4 col-form-label">ProfileDescription</label>
                                     <div class="col-8">
-                                        <textarea id="ProfileDescription" name="ProfileDescription" cols="40" rows="4" class="form-control"></textarea>
+                                        <form:textarea id="inputDescriptionText" path="descriptionText" cols="40" rows="4" class="form-control" readonly="${notEditable}"/>
+                                        <form:errors path="descriptionText" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
+
+
+                                <c:if test= "${userdto.username == ''}">
                                 <! ---------------- new password ---------------- -->
 
                                 <div class="form-group row">
@@ -146,7 +150,6 @@
                                 </div>
                                 <! ---------------- Repeat Password ---------------- -->
 
-
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-4 col-form-label">New Password</label>
                                     <div class="col-8">
@@ -155,10 +158,12 @@
                                     </div>
                                 </div>
 
+                                </c:if>
+
                                 <div class="form-group row">
                                     <div class="offset-4 col-8">
                                         <c:if test= "${userdto.username == ''}">
-                                            <button name="submit" type="submit" class="btn btn-primary">Update Profile</button>
+                                            <button name="submit" type="submit" class="btn btn-primary">Create Profile</button>
                                         </c:if>
                                         <a href="/adminListUsers" class="btn btn-default">Cancel</a>
                                     </div>

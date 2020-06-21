@@ -12,33 +12,28 @@
 
 
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <div class="avatar-wrapper">
-        <img class="profile-pic" src="" />
-        <div class="upload-button">
-            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-        </div>
-        <input class="file-upload" type="file" accept="image/*"/>
-    </div>
 
 
----------------------------
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Your Profile</h4>
+                                <div class="avatar-wrapper">
+                                    <img src="${currentUser.profilePicturePath}" />
+                                    <div class="upload-button">
+                                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                    </div>
+                                </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Your Profile</h4>
-                            <hr>
+                                <hr>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
                             <form:form modelAttribute="currentUser" class="needs-validation form-horizontal" method="post" action="updateUser"
                                        novalidate="novalidate">
                                 <! ---------------- user name ---------------- -->
@@ -48,6 +43,14 @@
                                         <form:input id="inputUsername" path="username" type="text" class="form-control"
                                                     required="required" value="${currentUser.username}"/>
                                         <form:errors path="username" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+
+                                <! ---------------- update Profile picture ---------------- -->
+                                <div class="form-group row">
+                                    <label for="profilePicture" class="col-4 col-form-label">Upload a picture</label>
+                                    <div class="col-8">
+                                        <input class="file-upload" type="file" name="file" accept="image/*"/>
                                     </div>
                                 </div>
                                 <! ---------------- first name ---------------- -->
@@ -83,12 +86,34 @@
                                     <! ---------------- Gender ---------------- -->
                                 <div class="form-group row">
                                     <label for="male" class="col-4 col-form-label">Gender</label>
-                                    <div>
-                                        <input type="radio" id="male" name="gender" value="${currentUser.gender = "MALE"}">
+                                    <div class="col-4 ">
+                                        <c:choose>
+                                            <c:when test="${currentUser.gender == 'MALE'}" >
+                                                <c:set var="selectedGenderMale">checked</c:set>
+                                                <c:set var="selectedGenderFemale"></c:set>
+                                                <c:set var="selectedGenderOther"></c:set>
+                                            </c:when>
+                                            <c:when test="${currentUser.gender == 'FEMALE'}" >
+                                                <c:set var="selectedGenderMale"></c:set>
+                                                <c:set var="selectedGenderFemale">checked</c:set>
+                                                <c:set var="selectedGenderOther"></c:set>
+                                            </c:when>
+                                            <c:when test="${currentUser.gender == 'OTHER'}" >
+                                                <c:set var="selectedGenderMale"></c:set>
+                                                <c:set var="selectedGenderFemale"></c:set>
+                                                <c:set var="selectedGenderOther">checked</c:set>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set var="selectedGenderMale"></c:set>
+                                                <c:set var="selectedGenderFemale"></c:set>
+                                                <c:set var="selectedGenderOther"></c:set>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <input type="radio" id="male" name="gender" ${selectedGenderMale} value="${currentUser.gender = "MALE"}">
                                         <label for="male">Male</label>
-                                        <input type="radio" id="female" name="gender" value="${currentUser.gender = "FEMALE"}">
+                                        <input type="radio" id="female" name="gender" ${selectedGenderFemale} value="${currentUser.gender = "FEMALE"}">
                                         <label for="female">Female</label>
-                                        <input type="radio" id="other" name="gender" value="${currentUser.gender = "OTHER"}">
+                                        <input type="radio" id="other" name="gender" ${selectedGenderOther} value="${currentUser.gender = "OTHER"}">
                                         <label for="other">Other</label><br>
                                         <form:errors path="gender" cssClass="invalid-feedback d-block"/>
                                     </div>
@@ -117,9 +142,10 @@
                                 </div>
                                     <! ---------------- description ---------------- -->
                                 <div class="form-group row">
-                                    <label for="ProfileDescription" class="col-4 col-form-label">ProfileDescription</label>
+                                    <label for="inputDescriptionText" class="col-4 col-form-label">ProfileDescription</label>
                                     <div class="col-8">
-                                        <textarea id="ProfileDescription" name="ProfileDescription" cols="40" rows="4" class="form-control"></textarea>
+                                        <form:textarea id="inputDescriptionText" path="descriptionText" cols="40" rows="4" class="form-control"/>
+                                        <form:errors path="descriptionText" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
                                     <! ---------------- new password ---------------- -->
@@ -135,7 +161,7 @@
 
 
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-4 col-form-label">New Password</label>
+                                    <label for="inputPassword" class="col-4 col-form-label">Repeat Password</label>
                                     <div class="col-8">
                                         <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password" class="form-control"/>
                                         <form:errors path="passwordrepeat" cssClass="invalid-feedback d-block"/>
@@ -161,6 +187,17 @@
 </div>
 
 
+</layout:page-container>
+
+<!%
+----------------------------------------------------------------------------------------------------------------------------
+Das fehlt:
+
+--password logik: wenn die passwortfelder beide null sind, dann soll  das alte passwort bestehend bleiben
+
+-- wenn man den update profile button klickt soll das profil geupdatet werden (controller updaten)
+
+-- sport auswahl fehlt noch
 
 
-    </layout:page-container>
+%>

@@ -10,11 +10,21 @@
         <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
             <html>
             <head>
+
             <bootstrap:bootstrap-metadata/>
             <title>${title}</title>
             <bootstrap:bootstrap-css/>
             <link rel="stylesheet" href="<c:url value="/css/custom.css"/>">
+            <link href="/css/chat.css" rel="stylesheet" type="text/css">
             <script src="/js/custom.js"></script>
+
+
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
             </head>
             <body>
 
@@ -27,7 +37,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
         <c:choose>
-            <c:when test="${activePage != 'signup'}">
+            <c:when test="${activePage != 'signup' && activePage != 'login'}">
 
                 <a class="nav-item nav-link item1${pageContext.request.requestURI == '/WEB-INF/jsp/swipe.jsp' ? ' active' : ''}" href="/swipe">Swipe <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link item2${pageContext.request.requestURI == '/WEB-INF/jsp/chat.jsp' ? ' active' : ''}" href="/chat">Chat</a>

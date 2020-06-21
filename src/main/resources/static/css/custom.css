@@ -1,5 +1,14 @@
 
 
+
+.city {
+    background-color: black;
+    color: white;
+    margin: 20px;
+    padding: 20px;
+}
+
+
 .avatar-wrapper{
     position: relative;
     height: 200px;
