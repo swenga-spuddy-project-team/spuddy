@@ -61,7 +61,7 @@ class AdminController (val adminService: AdminService,
     @Secured("ROLE_ADMIN")
     @RequestMapping("/adminDeleteUser", method = [RequestMethod.POST])
     fun deleteUser(model: Model, @RequestParam id: Int): String {
-        val username = userService.findById(id)
+        val username  : String = userService.findById(id)!!.username
         userService.delete(id)
         model.set("message", "$username was deleted!")
         return "adminListUsers"
