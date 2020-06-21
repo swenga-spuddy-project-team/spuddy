@@ -1,5 +1,6 @@
 package at.fhj.ima.spuddy.service
 
+import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.entity.*
 import at.fhj.ima.spuddy.repository.UserLikeRepository
 import at.fhj.ima.spuddy.repository.UserRepository
@@ -8,9 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class SwipeService (val userRepository: UserRepository,
                     val userLikeRepository: UserLikeRepository
+
 ) {
-
-
     fun getNextUser(district: District, sport: Set<Sport>, username: String): User? {
         val loadCurrentUser = userRepository.findByUsername(username)
         val sharedDistrictAndSportsUsers = userRepository.sharedDistrictAndSports(district)
@@ -27,14 +27,30 @@ class SwipeService (val userRepository: UserRepository,
         userLikeRepository.save(UserLike(swipingUser = currentUser, swipedUser = user, statusLikes = statusLikes))
     }
 
-    fun prepareDataAndGenerateUserLike (username: String, swipedUserId: Int, statusLikes: StatusLikes){
+    fun prepareDataAndGenerateUserLike(username: String, swipedUserId: Int, statusLikes: StatusLikes) {
         val loadCurrentUser = userRepository.findByUsername(username)
         val loadSwipedUser = userRepository.findByUserId(swipedUserId)
         generateUserLike(loadCurrentUser!!, loadSwipedUser!!, statusLikes)
     }
+}
+/*
+    fun handleMatch(currentUser: UserDto, swipedUser: UserDto) {
+        userLikeRepository.findLikesBySwipedUser(currentUser, swipedUser, StatusLikes.LIKED) ?: return
+        generateUserLike(currentUser, swipedUser, StatusLikes.MATCHED)
+    }
+}
 
+
+    /*
     fun isMatch(currentUser: User, swipedUser: User){
-        val findUserLikes = userLikeRepository.findLikesBySwipedUser(swipedUser)
+        val findUserLikes = userLikeRepository.findLikesBySwipedUser(currentUser,swipedUser,StatusLikes.LIKED)
+        if (findUserLikes == null)
+            return
+        generateUserLike(currentUser, swipedUser, StatusLikes.MATCHED)
+
+        //neuen Eintrag für Match
+        //current User und Status
+
     }
 }
 
