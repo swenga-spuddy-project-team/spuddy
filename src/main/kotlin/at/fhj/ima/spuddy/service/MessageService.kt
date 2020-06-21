@@ -17,7 +17,7 @@ class MessageService (val MessageRepository: MessageRepository,
                         val userLikeRepository: UserLikeRepository){
 
     fun findMessagesOfSender(sender: UserDto, receiver: UserDto) : List<Message>{
-        return MessageRepository.createMsgList( UserService.convertDtoToEntity(sender, true)!!, UserService.convertDtoToEntity(receiver, true)!!).sortedBy { it.timestamp }
+        return MessageRepository.createMsgList( UserService.convertDtoToEntity(sender, true, true)!!, UserService.convertDtoToEntity(receiver, true)!!).sortedBy { it.timestamp }
     }
 
 
@@ -31,11 +31,11 @@ class MessageService (val MessageRepository: MessageRepository,
 
     fun getMatchesList(sender: UserDto) : List<User>
     {
-        var list1 = userLikeRepository.findUserMatches(UserService.convertDtoToEntity(sender, true)!!, StatusLikes.MATCHED)
+        var list1 = userLikeRepository.findUserMatches(UserService.convertDtoToEntity(sender, true, true)!!, StatusLikes.MATCHED)
         val swipinglist = list1.map { it.swipingUser}
         val swipedlist = list1.map {it.swipedUser}
         val joinedList = swipedlist + swipinglist
-        val cleanSwipinglist = joinedList.filter { it != UserService.convertDtoToEntity(sender, true) }
+        val cleanSwipinglist = joinedList.filter { it != UserService.convertDtoToEntity(sender, true, true) }
         return cleanSwipinglist
     }
    // messageService.getMatchesList(userService.findByUsername(name)!!)

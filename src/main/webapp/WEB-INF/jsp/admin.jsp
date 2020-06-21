@@ -9,7 +9,7 @@
 <%@taglib prefix="file" tagdir="/WEB-INF/tags/file" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<layout:page-container title="Admin" activePage="admin">
+<layout:page-container title="Admin" activePage="settings">
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
