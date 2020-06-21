@@ -10,26 +10,26 @@
 
 <layout:page-container title="swipe" activePage="swipe">
     <h1>Spuddy </br> Let's swipe your Sport Buddy</h1>
-    <div class="container">
+    <div class="container" modelAttribute="nextUser">
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-danger">DISLIKE</button>
+                <a href="swipeAction?id=${swipe.id}" type ="dislike" class="btn btn-danger">DISLIKE</a>
             </div>
             <div class="col-6">
-                <div class="container" id="randomUser">
+                <div class="container" id="randomUser" value="<c:out value="${swipe.id}"/>">
                     <div>
                         <img src="..." class="img-fluid" alt="Responsive image">
                     </div>
                     <div class="container">
                         <div class="row">
                             <div class="col-sm">
-                                District
+                                ${nextUser.district}
                             </div>
                             <div class="col-sm">
-                                Username
+                                    ${nextUser.username}
                             </div>
                             <div class="col-sm">
-                                Age
+
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-success">LIKE</button>
+                <a href="/swipeLike?userLikeId=${nextUser.id}" type ="like" class="btn btn-success">LIKE</a>
             </div>
     </div>
 </layout:page-container>

@@ -52,7 +52,7 @@ class UserService (val userRepository: UserRepository,
         userRepository.delete(userRepository.findByIdOrNull(id)!!)
     }
 
-    private fun convertEntityToDto(user: User?): UserDto? {
+    fun convertEntityToDto(user: User?): UserDto? {
         if (user != null) {
             val dto = UserDto(user.username)
             dto.id = user.id
