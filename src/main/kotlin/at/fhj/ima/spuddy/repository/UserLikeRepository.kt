@@ -11,8 +11,11 @@ interface UserLikeRepository: JpaRepository<UserLike, Int> {
     @Query("from UserLike where swipingUser = :swipingUser")
     fun findLikesBySwipingUser(@Param("swipingUser") swipingUser: User): List<UserLike>
 
-    @Query("from UserLike where swipedUser = :swipedUser")
-    fun findLikesBySwipedUser(@Param("swipedUser")swipingUser: User): UserLike
+    @Query("from UserLike where swipedUser = :swipedUser and swipingUser = :swipingUser and statusLikes = :statusLikes")
+    fun findLikesBySwipedUser(@Param("swipedUser")swipedUser: User, @Param("swipingUser")swipingUser: User, @Param("statusLikes")statusLikes: StatusLikes): UserLike?
+
+    @Query("from UserLike where swipingUser = :swipingUser and statusLikes = :statusLikes")
+    fun findUserMatches(@Param("swipingUser") swipingUser: User, @Param("statusLikes")statusLikes: StatusLikes): List<UserLike>
 
    // @Query ("from UserLike where swipingUser = :swipingUser and statusLikes like 'LIKED' or 'DISLIKED' or 'BLOCKED' order by likesId")
    // fun createListOfAllStatusEntries(@Param("swipingUser")swipingUser: String, @Param("statusLikes") statusLikes: StatusLikes): List<UserLike>
