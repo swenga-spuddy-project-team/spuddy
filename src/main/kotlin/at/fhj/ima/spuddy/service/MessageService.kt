@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class MessageService (val MessageRepository: MessageRepository){
+class MessageService (val MessageRepository: MessageRepository,
+                        val UserService: UserService){
 
-    fun findMessagesOfSender(sender: User, receiver: User) : List<Message>{
-        return MessageRepository.createMsgList(sender, receiver)
+    fun findMessagesOfSender(sender: UserDto, receiver: UserDto) : List<Message>{
+        return MessageRepository.createMsgList( UserService.convertDtoToEntity(sender)!!, UserService.convertDtoToEntity(receiver)!!).sortedBy { it.timestamp }
     }
 
 
@@ -27,7 +28,5 @@ class MessageService (val MessageRepository: MessageRepository){
         return MessageRepository.findByMessageId(id)
     }
 
-
-
-
 }
+

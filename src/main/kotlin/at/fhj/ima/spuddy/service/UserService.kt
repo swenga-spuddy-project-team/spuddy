@@ -87,7 +87,7 @@ class UserService (val userRepository: UserRepository,
 
 
 
-    private fun convertDtoToEntity(dto: UserDto): User? {
+     fun convertDtoToEntity(dto: UserDto): User? {
         // User Daten Prüfung -> Bei Fehler wird DataIntegrityViolationException aufgerufen
         // when entspricht verkettetem if-Statement bzw. Guards aus Haskell
         // Geschwungene Klammern von "when" umfassen alle zu bearbeitenden Fäll
