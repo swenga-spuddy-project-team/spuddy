@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div>
-                        User INFO
+                            ${nextUser.descriptionText}
                     </div>
                 </div>
             </div>
