@@ -36,22 +36,33 @@ class SwipeController (val userService: UserService,
         val district = districtService.findByDistrictName(currentUser.district.orEmpty())
         model.addAttribute("nextUser", userService.convertEntityToDto(swipeService.getNextUser(district!!, emptySet(),currentUser.username)))
     }
+    //wenn keine User in Datenbank, swipeService raus in eigene val
+    //überprüfen ob leer
+    //wenn leer fehlermeldung
+    //sonst normal weiter
 
     @RequestMapping("/swipeLike", method = [RequestMethod.GET])
     fun swipeLike(model: Model, userLikeId: Int): String {
         val currentUser = model.getAttribute("currentUser") as UserDto
-        model.set("like", swipeService.prepareDataAndGenerateUserLike(currentUser.username,userLikeId, StatusLikes.LIKED))
-        setModelData (currentUser,model)
+        model.set(
+            "like",
+            swipeService.prepareDataAndGenerateUserLike(currentUser.username, userLikeId, StatusLikes.LIKED)
+        )
+        setModelData(currentUser, model)
         return "swipe"
     }
 
-/*    @RequestMapping("/swipeDislike", method = [RequestMethod.POST])
-    fun swipeDislike(model: Model, userLike: UserLike): String {
+    @RequestMapping("/swipeDislike", method = [RequestMethod.GET])
+    fun swipeDislike(model: Model, userDislikeId: Int): String {
         val currentUser = model.getAttribute("currentUser") as UserDto
-        model.set("dislike", swipeService.generateUserLike())
-        return "swipeDislike"
+        model.set(
+            "dislike",
+            swipeService.prepareDataAndGenerateUserLike(currentUser.username, userDislikeId, StatusLikes.DISLIKED)
+        )
+        setModelData(currentUser, model)
+        return "swipe"
     }
-
+/*
     fun allUsersStatusSet(user: User) :List<User>{
         val createLikedList = createBlockedList()
         val createDislikedList = createBlockedList()
