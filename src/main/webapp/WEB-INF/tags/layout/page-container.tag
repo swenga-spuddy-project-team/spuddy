@@ -5,6 +5,7 @@
         <%@taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
         <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
         <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+        <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
         <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,7 +32,7 @@
 
 
         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light" >
-        <a class="navbar-brand">Spuddy</a>
+        <a class="navbar-brand"><spring:message code="pageContainer.Header"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,47 +44,47 @@
 
                 <a class="nav-item nav-link
                 item1${pageContext.request.requestURI == '/WEB-INF/jsp/swipe.jsp' ? ' active' : ''}" href="/swipe">Swipe
-                <span class="sr-only">(current)</span></a>
+                <span class="sr-only"><spring:message code="pageContainer.Current"/></span></a>
                 <a class="nav-item nav-link
                 item2${pageContext.request.requestURI == '/WEB-INF/jsp/chatOverview.jsp' ? ' active' : ''}"
-                href="/chatOverview">Chats</a>
+                href="/chatOverview"><spring:message code="pageContainer.Chats"/></a>
                 <a class="nav-item nav-link
                 item3${pageContext.request.requestURI == '/WEB-INF/jsp/home.jsp' ? ' active' : ''}"
-                href="/home">Home</a>
+                href="/home"><spring:message code="pageContainer.Home"/></a>
 
 
                 <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                     <a class="nav-item nav-link
                     item4${pageContext.request.requestURI == '/WEB-INF/jsp/adminListSports.jsp' ? ' active' : ''}"
-                    href="/adminListSports">Manage Sports</a>
+                    href="/adminListSports"><spring:message code="pageContainer.ManageSports"/></a>
                     <a class="nav-item nav-link
-                    item5${pageContext.request.requestURI == '/WEB-INF/jsp/admin2.jsp' ? ' active' : ''}"
-                    href="/adminListDistricts">Manage District</a>
+                    item5${pageContext.request.requestURI == '/WEB-INF/jsp/adminListDistricts.jsp' ? ' active' : ''}"
+                    href="/adminListDistricts"><spring:message code="pageContainer.ManageDistricts"/></a>
                     <a class="nav-item nav-link
-                    item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin3.jsp' ? ' active' : ''}"
-                    href="/adminListUsers">Manage Users</a>
+                    item6${pageContext.request.requestURI == '/WEB-INF/jsp/adminListUsers.jsp' ? ' active' : ''}"
+                    href="/adminListUsers"><spring:message code="pageContainer.ManageUsers"/></a>
                     <a class="nav-item nav-link
-                    item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin4.jsp' ? ' active' : ''}"
-                    href="/admin">Manage Settings</a>
+                    item6${pageContext.request.requestURI == '/WEB-INF/jsp/admin.jsp' ? ' active' : ''}"
+                    href="/admin"><spring:message code="pageContainer.ManageSettings"/></a>
                 </sec:authorize>
             </c:when>
             <c:otherwise>
-                <a class="nav-item nav-link active" href="/signup">Signup <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link active" href="/signup"><spring:message code="pageContainer.Signup"/> <span class="sr-only"><spring:message code="pageContainer.Current"/></span></a>
+                <a class="nav-item nav-link" href="/login"><spring:message code="pageContainer.Login"/></a>
             </c:otherwise>
         </c:choose>
         </div>
         </div>
 
 
-        <c:if test="${activePage != 'signup'}">
+        <c:if test="${activePage != 'signup' && activePage != 'login'}">
             </div>
             </li>
             </ul>
 
-            Logged in as ${currentUser.username} |
+            <spring:message code="pageContainer.LoggedInAs"/> ${currentUser.username} |
             <form:form method="post" action="/logout">
-                <button class="btn btn-link" type="submit">Log Out</button>
+                <button class="btn btn-link" type="submit"><spring:message code="pageContainer.Logout"/> </button>
             </form:form>
             </div>
         </c:if>
