@@ -12,33 +12,29 @@
 
 
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <div class="avatar-wrapper">
-        <img class="profile-pic" src="" />
-        <div class="upload-button">
-            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-        </div>
-        <input class="file-upload" type="file" accept="image/*"/>
-    </div>
 
 
----------------------------
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Your Profile</h4>
+                                <div class="avatar-wrapper">
+                                    <img src="${userdto.profilePicturePath}" />
+                                    <div class="upload-button">
+                                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                    </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Your Profile</h4>
-                            <hr>
+                                </div>
+
+                                <hr>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
                             <form:form modelAttribute="currentUser" class="needs-validation form-horizontal" method="post" action="updateUser"
                                        novalidate="novalidate">
                                 <! ---------------- user name ---------------- -->
@@ -48,6 +44,14 @@
                                         <form:input id="inputUsername" path="username" type="text" class="form-control"
                                                     required="required" value="${currentUser.username}"/>
                                         <form:errors path="username" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+
+                                <! ---------------- update Profile picture ---------------- -->
+                                <div class="form-group row">
+                                    <label for="profilePicture" class="col-4 col-form-label">Upload a picture</label>
+                                    <div class="col-8">
+                                        <input class="file-upload" type="file" name="file" accept="image/*"/>
                                     </div>
                                 </div>
                                 <! ---------------- first name ---------------- -->
@@ -164,3 +168,16 @@
 
 
     </layout:page-container>
+
+<!%
+----------------------------------------------------------------------------------------------------------------------------
+Das fehlt:
+
+--password logik: wenn die passwortfelder beide null sind, dann soll  das alte passwort bestehend bleiben
+
+-- wenn man den update profile button klickt soll das profil geupdatet werden (controller updaten)
+
+-- sport auswahl fehlt noch
+
+
+%>

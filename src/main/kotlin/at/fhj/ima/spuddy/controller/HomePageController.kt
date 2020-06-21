@@ -1,5 +1,6 @@
 package at.fhj.ima.spuddy.controller
 
+import at.fhj.ima.spuddy.controller.advice.CurrentUserControllerAdvice
 import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.repository.UserRepository
 import at.fhj.ima.spuddy.service.DistrictService
@@ -20,6 +21,7 @@ import javax.validation.Valid
 @Controller
 class HomePageController(val userService: UserService,
                          val districtService: DistrictService
+
 ) {
 
 
@@ -49,7 +51,8 @@ class HomePageController(val userService: UserService,
         if (bindingResult.hasErrors()) {
             return "/home"        }
         try {
-            userService.save(userdto)
+            val employee = userService.findByUsername("admin");
+            model.set("userdto", userdto)
         } catch (dive: DataIntegrityViolationException) {
             if (1 != 1){
                 return "/home"
@@ -57,7 +60,7 @@ class HomePageController(val userService: UserService,
                 throw dive;
             }
         }
-        return "home"
+        return "redirect:home"
     }
     }
 
