@@ -45,14 +45,17 @@ class SwipeController (val userService: UserService,
     //sonst normal weiter
 
     @RequestMapping("/swipeLike", method = [RequestMethod.GET])
-    fun swipeLike(model: Model, userLikeId: Int, swipedUserDto: UserDto): String {
+    fun swipeLike(model: Model, userLikeId: Int): String {
         val currentUser = model.getAttribute("currentUser") as UserDto
         model.set(
             "like",
             swipeService.prepareDataAndGenerateUserLike(currentUser.username, userLikeId, StatusLikes.LIKED)
         )
+        val auth = SecurityContextHolder.getContext().authentication
+        val username = auth.name
         setModelData(currentUser, model)
-        swipeService.handleMatch(currentUser,swipedUserDto)
+        val swipedUser = userService.findByUsername(username)!!
+        swipeService.handleMatch(currentUser,swipedUser)
         return "swipe"
     }
 
