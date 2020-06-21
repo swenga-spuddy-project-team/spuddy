@@ -97,7 +97,9 @@ class UserService (val userRepository: UserRepository,
 
 
 
-     fun convertDtoToEntity(dto: UserDto, skipUsernameVerfication: Boolean = false): User? {
+     fun convertDtoToEntity(dto: UserDto,
+                            skipUsernameVerfication: Boolean = false,
+                            skipPasswordVerfication: Boolean = false): User? {
 
         // User Daten Prüfung -> Bei Fehler wird DataIntegrityViolationException aufgerufen
         // when entspricht verkettetem if-Statement bzw. Guards aus Haskell
@@ -106,7 +108,9 @@ class UserService (val userRepository: UserRepository,
         // Rechts vom Pfeil (bzw. im Klammerblock danach) steht was bei Eintreten des Falls passieren soll
 
         verifyUsername(dto, skipUsernameVerfication)
-        verifyPassword(dto)
+         if(!skipPasswordVerfication){
+             verifyPassword(dto)
+         }
         verifyFirstName(dto)
         verifyLastName(dto)
         verifyDate(dto)
@@ -160,9 +164,9 @@ class UserService (val userRepository: UserRepository,
 
 
 
-    fun verifyUsername(dto:UserDto, update: Boolean = false){
+    fun verifyUsername(dto:UserDto, skipUsernameVerfication: Boolean = false){
         when {
-            ((userRepository.findByUsername(dto.username) != null) && !update) -> {
+            ((userRepository.findByUsername(dto.username) != null) && !skipUsernameVerfication) -> {
                 throw DataIntegrityViolationException("Error: usernameInUse name already in use!")
             }
             (((dto.username) == null) ) -> {
