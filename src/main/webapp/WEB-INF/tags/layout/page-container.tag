@@ -14,10 +14,9 @@
             <bootstrap:bootstrap-metadata/>
             <title>${title}</title>
             <bootstrap:bootstrap-css/>
-            <link href="/css/custom.css" rel="stylesheet" type="text/css">
-        <link href="/css/chat.css" rel="stylesheet" type="text/css">
-
-        <script src="/js/custom.js"></script>
+            <link rel="stylesheet" href="<c:url value="/css/custom.css"/>">
+            <link href="/css/chat.css" rel="stylesheet" type="text/css">
+            <script src="/js/custom.js"></script>
 
 
 
