@@ -3,6 +3,7 @@ package at.fhj.ima.spuddy.controller
 import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.entity.User
 import at.fhj.ima.spuddy.entity.UserRole
+import at.fhj.ima.spuddy.helpers.Quadruple
 import at.fhj.ima.spuddy.service.DistrictService
 import at.fhj.ima.spuddy.service.UserService
 import org.springframework.dao.DataIntegrityViolationException
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
+
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
 import javax.validation.Valid
@@ -57,6 +59,22 @@ class SignUpController (val userService: UserService,
             }
         } catch (dive: DataIntegrityViolationException) {
             // ERROR Messages related to username
+            val errorList = listOf(
+                Quadruple("username", "username","username.alreadyInUse", "Username already in use"),
+                Quadruple("passwordLength", "password","password.lengthRequirementNotMet", "Password must be between 2 and 30 characters"),
+                Quadruple("passwordNull", "password","password.empty", "Password field must not be empty"),
+                Quadruple("passwordNotMatch", "password","password.notMatch", "Passwords don't match!"),
+                Quadruple("district", "district","district.invalidSelection", "District invalid"),
+                Quadruple("firstName", "firstName","firstName.empty", "First name is required"),
+                Quadruple("lastName", "lastName","lastName.empty", "Last name is required"),
+                Quadruple("dateOfBirth", "dateOfBirth","dateOfBirth.empty", "Date of birth is required"),
+                Quadruple("gender", "gender","gender.empty", "Gender is required"),
+                Quadruple("email", "email","email.empty", "email is required"),
+                Quadruple("userInstantiation", "username","user.generalError", "Unidentifiable error during user instantiation")
+            )
+            
+            // errorList.reduce { acc, quadruple -> acc = when (dive.message.orEmpty().contains(quadruple.first) ->   }
+
             when {
             (dive.message.orEmpty().contains("username")) -> {
                 bindingResult.rejectValue("username", "username.alreadyInUse", "Username already in use")
@@ -88,7 +106,6 @@ class SignUpController (val userService: UserService,
             // ERROR Messages related to firstName
             (dive.message.orEmpty().contains("firstName")) -> {
                 bindingResult.rejectValue("firstName", "firstName.empty", "First name is required.")
-                model.set("districtNames", districtService.findAll().map { it.districtName })
                 return returnToSignup(model)
             }
             // ERROR Messages related to lastName
