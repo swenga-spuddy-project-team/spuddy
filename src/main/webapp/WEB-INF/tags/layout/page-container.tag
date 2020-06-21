@@ -20,6 +20,7 @@
 
 
 
+
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -29,7 +30,7 @@
             <body>
 
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light" >
         <a class="navbar-brand">Spuddy</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,7 +41,7 @@
             <c:when test="${activePage != 'signup' && activePage != 'login'}">
 
                 <a class="nav-item nav-link item1${pageContext.request.requestURI == '/WEB-INF/jsp/swipe.jsp' ? ' active' : ''}" href="/swipe">Swipe <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link item2${pageContext.request.requestURI == '/WEB-INF/jsp/chat.jsp' ? ' active' : ''}" href="/chat">Chat</a>
+                <a class="nav-item nav-link item2${pageContext.request.requestURI == '/WEB-INF/jsp/chatOverview.jsp' ? ' active' : ''}" href="/chatOverview">Chats</a>
                 <a class="nav-item nav-link item3${pageContext.request.requestURI == '/WEB-INF/jsp/home.jsp' ? ' active' : ''}" href="/home">Home</a>
 
 
