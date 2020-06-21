@@ -13,7 +13,7 @@
     <div class="container" modelAttribute="nextUser">
         <div class="row">
             <div class="col">
-                <a href="swipeAction?id=${swipe.id}" type ="dislike" class="btn btn-danger">DISLIKE</a>
+                <a href="/swipeDislike?userDislikeId=${nextUser.id}" type ="dislike" class="btn btn-danger">DISLIKE</a>
             </div>
             <div class="col-6">
                 <div class="container" id="randomUser" value="<c:out value="${swipe.id}"/>">
