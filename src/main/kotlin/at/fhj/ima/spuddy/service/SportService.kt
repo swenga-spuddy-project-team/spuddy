@@ -5,6 +5,7 @@ import at.fhj.ima.spuddy.repository.SportRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 
+
 @Service
 class SportService (val sportRepository: SportRepository){
 
@@ -16,7 +17,7 @@ class SportService (val sportRepository: SportRepository){
         sportRepository.delete(sportRepository.findSportById(id))
     }
 
-    fun findDescriptionById(id: Int): String {
+    fun findNameById(id: Int): String {
         return sportRepository.findSportById(id).description.orEmpty()
     }
 
@@ -29,9 +30,9 @@ class SportService (val sportRepository: SportRepository){
     }
 
     fun save(sport: Sport) {
-        if(sport.description.isNullOrEmpty())
+        if(sport.name.isNullOrEmpty())
         {
-            throw DataIntegrityViolationException("descriptionEmpty")
+            throw DataIntegrityViolationException("nameEmpty")
         }
         sportRepository.save(sport)
     }

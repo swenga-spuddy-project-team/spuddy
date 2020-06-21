@@ -10,14 +10,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
-<layout:page-container title="Admin Sports" activePage="adminListSports">
+<layout:page-container title="Admin Users" activePage="adminListUsers">
 
 
-    <div class="col-md-10">
-        <p>
-            <a href="/adminAddUser" class="btn btn-success">Add User</a>
-        </p>
+    <div>
+            <a href="/adminEditUser" class="btn btn-success">Add User</a>
     </div>
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
 

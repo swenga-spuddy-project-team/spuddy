@@ -28,10 +28,18 @@
         <fieldset>
             <input type="hidden" name="sportId" value="<c:out value="${sport.sportId}"/>">
             <div class="form-group">
-                <label for="inputSportDescription" class="col-md-6 control-label">Sport Name*</label>
+                <label for="inputSportName" class="col-md-6 control-label">Sport Name*</label>
                 <div class="col-md-6">
-                    <form:input id="inputSportDescription" path="description" type="text" class="form-control"
+                    <form:input id="inputSportName" path="name" type="text" class="form-control"
                                 required="required"/>
+                    <form:errors path="name" cssClass="invalid-feedback d-block"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputSportDescription" class="col-md-6 control-label">Sport Description</label>
+                <div class="col-md-6">
+                    <form:input id="inputSportDescription" path="description" type="text" class="form-control"/>
                     <form:errors path="description" cssClass="invalid-feedback d-block"/>
                 </div>
             </div>

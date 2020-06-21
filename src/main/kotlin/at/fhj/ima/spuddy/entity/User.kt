@@ -1,9 +1,7 @@
 package at.fhj.ima.spuddy.entity
 
 import org.hibernate.annotations.CreationTimestamp
-import java.io.Serializable
 import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.Past
@@ -50,7 +48,8 @@ class User(
     var email: String? = null,
     @Column(nullable = false)
     var isTeam: Boolean? = false,
-    var profilePictureUrl: String? = null,
+    @OneToOne
+    var profilePicture: File? = null,
     @ManyToMany
     var sport : Set<Sport>? = null,
     @CreationTimestamp

@@ -6,6 +6,8 @@
 <%@taglib prefix="bootstrap" tagdir="/WEB-INF/tags/bootstrap" %>
 <%@taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="file" tagdir="/WEB-INF/tags/file" %>
+
 
 <layout:page-container title="Admin" activePage="admin">
 
@@ -17,5 +19,8 @@
             <form:errors path="generateTestData" cssClass="invalid-feedback d-block"/>
         </div>
     </div>
+
+
+
 
 </layout:page-container>

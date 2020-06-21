@@ -3,8 +3,12 @@ package at.fhj.ima.spuddy.service
 import at.fhj.ima.spuddy.entity.District
 import at.fhj.ima.spuddy.entity.Sport
 import at.fhj.ima.spuddy.repository.DistrictRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
+
 
 @Service
 class DistrictService (val districtRepository: DistrictRepository){
