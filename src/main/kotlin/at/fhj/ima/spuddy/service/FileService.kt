@@ -3,9 +3,11 @@ package at.fhj.ima.spuddy.service
 import at.fhj.ima.spuddy.entity.District
 import at.fhj.ima.spuddy.entity.File
 import at.fhj.ima.spuddy.entity.Sport
+import at.fhj.ima.spuddy.helpers.Quadruple
 import at.fhj.ima.spuddy.repository.FileRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -43,14 +45,16 @@ class FileService(val fileRepository: FileRepository) {
     fun createFile(dto: MultipartFile, creator : String): File {
         val file = convertMultipartFileToFile(dto)
         file.creator = creator
-        this.save(file)
-        val path = this.retrievePath(file.id!!).toAbsolutePath()
-        if (!Files.exists(path)) {
+        if (file.size != null || file.size != 0.toLong()) {
+            this.save(file)
+            val path = this.retrievePath(file.id!!).toAbsolutePath()
+            if (!Files.exists(path)) {
 
-            Files.createFile(path)
+                Files.createFile(path)
+            }
+
+            Files.write(path, dto.bytes, StandardOpenOption.WRITE)
         }
-
-        Files.write(path, dto.bytes, StandardOpenOption.WRITE)
         return file
     }
 
@@ -73,5 +77,6 @@ class FileService(val fileRepository: FileRepository) {
     fun findByUploadingUser(uploadingUser : String) : File? {
         return fileRepository.findByUploadingUser(uploadingUser)
     }
+
 
 }

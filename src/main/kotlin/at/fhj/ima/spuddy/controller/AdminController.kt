@@ -3,6 +3,7 @@ package at.fhj.ima.spuddy.controller
 import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.entity.District
 import at.fhj.ima.spuddy.entity.Sport
+import at.fhj.ima.spuddy.helpers.Quadruple
 import at.fhj.ima.spuddy.service.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.access.annotation.Secured
@@ -13,7 +14,9 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.ModelAndView
+import java.sql.SQLException
 import javax.servlet.http.HttpServletRequest
+import javax.validation.ConstraintViolationException
 import javax.validation.Valid
 
 @Controller
@@ -69,9 +72,37 @@ class AdminController (val adminService: AdminService,
     fun adminAddUser(@ModelAttribute("userdto") @Valid userDto: UserDto, bindingResult: BindingResult,
                      @RequestParam("file", required = false) file: MultipartFile, model: Model): String {
 
-        var newFile = fileService.createFile(file, userDto.username)
-        userDto.profilePicture = newFile
-        userService.save(userDto)
+        try {
+            if(!file.originalFilename.isNullOrEmpty()){
+                var newFile = fileService.createFile(file, userDto.username)
+                userDto.profilePicture = newFile
+            }
+            else {
+                userDto.profilePicture = null
+                userDto.profilePicturePath = null
+            }
+            userService.save(userDto)
+        }
+        catch (dive: DataIntegrityViolationException){
+            val errorQuadruple: Quadruple<String, String, String, String> = userService.userInputExceptionHandling(dive.message)
+            bindingResult.rejectValue(errorQuadruple.second, errorQuadruple.third, errorQuadruple.fourth)
+
+            model.set("districtNames", districtService.findAll().map { it.districtName })
+            model.set("userdto", userService.createNewUser())
+            return "adminEditUser"
+        }
+        catch(cve: ConstraintViolationException){
+            if(cve.message.orEmpty().contains("must be a past date")){
+                bindingResult.rejectValue("dateOfBirth", "dateOfBirth.inFuture", "Date of birth must be in the past")
+                model.set("districtNames", districtService.findAll().map { it.districtName })
+                model.set("userdto", userService.createNewUser())
+                return "adminEditUser"
+            }
+            else {
+                throw cve
+            }
+        }
+
 
         model.set("userdtos", userService.findAll())
         return "redirect:adminListUsers"

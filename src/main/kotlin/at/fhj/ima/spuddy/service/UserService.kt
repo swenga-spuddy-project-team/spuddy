@@ -1,8 +1,10 @@
 package at.fhj.ima.spuddy.service
 
 import at.fhj.ima.spuddy.dto.UserDto
+import at.fhj.ima.spuddy.entity.File
 import at.fhj.ima.spuddy.entity.User
 import at.fhj.ima.spuddy.entity.UserRole
+import at.fhj.ima.spuddy.helpers.Quadruple
 import at.fhj.ima.spuddy.repository.DistrictRepository
 import at.fhj.ima.spuddy.repository.UserRepository
 import org.springframework.dao.DataIntegrityViolationException
@@ -213,5 +215,34 @@ class UserService (val userRepository: UserRepository,
             }
             else -> return
         }
+    }
+
+    fun userInputExceptionHandling(diveMessage: String?) : Quadruple<String, String, String, String>{
+        val errorList = listOf(
+            Quadruple("username", "username","username.alreadyInUse", "Username already in use"),
+            Quadruple("passwordLength", "password","password.lengthRequirementNotMet", "Password must be between 2 and 30 characters"),
+            Quadruple("passwordNull", "password","password.empty", "Password field must not be empty"),
+            Quadruple("passwordNotMatch", "password","password.notMatch", "Passwords don't match!"),
+            Quadruple("district", "district","district.invalidSelection", "District invalid"),
+            Quadruple("firstName", "firstName","firstName.empty", "First name is required"),
+            Quadruple("lastName", "lastName","lastName.empty", "Last name is required"),
+            Quadruple("dateOfBirth", "dateOfBirth","dateOfBirth.empty", "Date of birth is required"),
+            Quadruple("gender", "gender","gender.empty", "Gender is required"),
+            Quadruple("email", "email","email.empty", "email is required"),
+            Quadruple("userInstantiation", "username","user.generalError", "Unidentifiable error during user instantiation"))
+
+        return errorList.reduce { acc, quadruple -> verifyUserExceptions(diveMessage, quadruple, acc)  }
+    }
+
+
+    fun verifyUserExceptions(diveMessage: String?,
+                             quadruple: Quadruple<String, String, String, String>,
+                             acc: Quadruple<String, String, String, String>) : Quadruple<String, String, String, String>{
+
+        val (contains, field, verrorCode, errorMessage) = quadruple
+        if (diveMessage.orEmpty().contains(contains))
+            return Quadruple(contains, field, verrorCode, errorMessage)
+        else
+            return acc
     }
 }
