@@ -83,7 +83,6 @@
                     </div>
 
                     <! ---------------- District ---------------- -->
-                    <! -- Muss noch angepasst werden um Districts in DropDown darzustellen -->
                     <div class="form-group">
                         <label for="inputDistrict" class="col-md-2 control-label">District*</label>
                         <div class="col-md-10">
@@ -126,7 +125,7 @@
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="test" class="btn btn-default">Cancel</a>
+                            <a href="login" class="btn btn-default">Cancel</a>
                         </div>
                     </div>
 

@@ -63,7 +63,7 @@ class SignUpController (val userService: UserService,
 
         }
         // Todo: Redirect auf signup success Seite um User anzuzeigen das er sich erfolgreich angemeldet hat
-        return "redirect:login"
+        return "login"
     }
 
     // Return to signup page without reseting all the data
