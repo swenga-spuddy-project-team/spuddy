@@ -15,7 +15,7 @@
 
     <row>
         <div>
-            <form:form method="post" action="/importSportData" enctype="multipart/form-data">
+            <form:form method="post" action="/importDistrictData" enctype="multipart/form-data">
                 <a href="/adminEditDistrict" class="btn btn-success">Add District</a>
 
                 <button class="btn btn-success" type="submit">Import District Data</button>

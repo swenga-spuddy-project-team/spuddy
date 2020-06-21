@@ -27,6 +27,7 @@ class SpuddyApplication : SpringBootServletInitializer() {
 		return registration
 	}
 
+
 	@Bean
 	fun passwordEncoder(): PasswordEncoder {
 		return BCryptPasswordEncoder();

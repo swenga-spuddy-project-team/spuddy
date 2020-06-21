@@ -1,21 +1,22 @@
 package at.fhj.ima.spuddy.service
 
 import at.fhj.ima.spuddy.dto.UserDto
-import at.fhj.ima.spuddy.entity.Gender
 import at.fhj.ima.spuddy.entity.User
 import at.fhj.ima.spuddy.entity.UserRole
 import at.fhj.ima.spuddy.repository.DistrictRepository
 import at.fhj.ima.spuddy.repository.UserRepository
-import org.jetbrains.annotations.NotNull
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.nio.file.Paths
+
 
 @Service
 class UserService (val userRepository: UserRepository,
-                   val districtRepository: DistrictRepository) {
+                   val districtRepository: DistrictRepository,
+                   val fileService: FileService) {
 
     fun createNewUser(): UserDto {
         val newUser = User(username = "", password = "", role = UserRole.ROLE_USER)
@@ -61,7 +62,9 @@ class UserService (val userRepository: UserRepository,
             dto.gender = user.gender
             dto.email = user.email
             dto.isTeam = user.isTeam
-            dto.profilePictureUrl = user.profilePictureUrl
+            if (user.profilePicture != null) {
+                dto.profilePicturePath = Paths.get("/files/" + user.profilePicture!!.id!!)
+            }
             return dto
         } else
             return null
@@ -105,6 +108,8 @@ class UserService (val userRepository: UserRepository,
         verifyGender(dto)
         verifyEmail(dto)
 
+        //Todo: Verify Profilepicture
+
         try {
             val user = User(
                     username = dto.username,
@@ -115,7 +120,8 @@ class UserService (val userRepository: UserRepository,
                     district = districtRepository.findByDistrictName(dto.district!!),
                     gender = dto.gender,
                     email = dto.email,
-                    isTeam = dto.isTeam
+                    isTeam = dto.isTeam,
+                    profilePicture = dto.profilePicture
             )
             return user
         }

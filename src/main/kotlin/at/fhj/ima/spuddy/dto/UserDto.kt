@@ -1,6 +1,8 @@
 package at.fhj.ima.spuddy.dto
 
+import at.fhj.ima.spuddy.entity.File
 import at.fhj.ima.spuddy.entity.Gender
+import java.nio.file.Path
 import java.time.LocalDate
 import javax.validation.constraints.Size
 
@@ -22,5 +24,6 @@ class UserDto (
     var gender: Gender? = null
     var email: String? = null
     var isTeam: Boolean? = false
-    var profilePictureUrl: String? = null
+    var profilePicture: File? = null
+    var profilePicturePath: Path? = null
 }

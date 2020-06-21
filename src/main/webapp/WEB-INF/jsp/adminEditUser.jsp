@@ -9,20 +9,15 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<layout:page-container title="Admin Users" activePage="adminEditUser">
+
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<div class="avatar-wrapper">
-    <img class="profile-pic" src="" />
-    <div class="upload-button">
-        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-    </div>
-    <input class="file-upload" type="file" accept="image/*"/>
-</div>
 
----------------------------
 
-<c:if test= "${userdto.username != null}">
+
+<c:if test= "${userdto.username != ''}">
     <c:set var="notEditable">true</c:set>
 </c:if>
 
@@ -36,13 +31,21 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4>Your Profile</h4>
+                            <div class="avatar-wrapper">
+                                <img src="${userdto.profilePicturePath}" />
+                                <div class="upload-button">
+                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                </div>
+
+                            </div>
+
                             <hr>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form:form modelAttribute="userdto" class="needs-validation form-horizontal" method="post" action="adminEditUser"
-                                       novalidate="novalidate">
+                            <form:form modelAttribute="userdto" class="needs-validation form-horizontal" method="post" action="adminAddUser"
+                                       novalidate="novalidate" enctype="multipart/form-data">
                                 <! ---------------- user name ---------------- -->
                                 <div class="form-group row">
                                     <label for="username" class="col-4 col-form-label">User Name</label>
@@ -50,6 +53,13 @@
                                         <form:input id="inputUsername" path="username" type="text" class="form-control"
                                                     required="required" value="${userdto.username}" readonly= "${notEditable}"/>
                                         <form:errors path="username" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+                                <! ---------------- upload profile picture ------>
+                                <div class="form-group row">
+                                    <label for="profilePicture" class="col-4 col-form-label">Upload a picture</label>
+                                    <div class="col-8">
+                                        <input class="file-upload" type="file" name="file" accept="image/*"/>
                                     </div>
                                 </div>
                                 <! ---------------- first name ---------------- -->
@@ -85,7 +95,7 @@
                                 <! ---------------- Gender ---------------- -->
                                 <div class="form-group row">
                                     <label for="male" class="col-4 col-form-label">Gender</label>
-                                    <div>
+                                    <div class="col-8">
                                         <input type="radio" id="male" name="gender" value="${userdto.gender = "MALE"}" readonly= "${notEditable}">
                                         <label for="male">Male</label>
                                         <input type="radio" id="female" name="gender" value="${userdto.gender = "FEMALE"}" readonly= "${notEditable}">
@@ -144,12 +154,9 @@
                                     </div>
                                 </div>
 
-
-
-
                                 <div class="form-group row">
                                     <div class="offset-4 col-8">
-                                        <c:if test= "${employee.username != null}">
+                                        <c:if test= "${userdto.username == ''}">
                                             <button name="submit" type="submit" class="btn btn-primary">Update Profile</button>
                                         </c:if>
                                         <a href="/adminListUsers" class="btn btn-default">Cancel</a>

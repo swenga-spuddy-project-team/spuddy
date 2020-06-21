@@ -1,5 +1,6 @@
 package at.fhj.ima.spuddy.controller
 
+import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.entity.District
 import at.fhj.ima.spuddy.entity.Sport
 import at.fhj.ima.spuddy.service.*
@@ -64,9 +65,16 @@ class AdminController (val adminService: AdminService,
     }
 
     @Secured("ROLE_ADMIN")
-    @RequestMapping("adminCreateUser", method = [RequestMethod.POST])
-    fun adminCreateUser(model: Model): String{
-        return "adminListUsers"
+    @RequestMapping("adminAddUser", method = [RequestMethod.POST])
+    fun adminAddUser(@ModelAttribute("userdto") @Valid userDto: UserDto, bindingResult: BindingResult,
+                     @RequestParam("file", required = false) file: MultipartFile, model: Model): String {
+
+        var newFile = fileService.createFile(file, userDto.username)
+        userDto.profilePicture = newFile
+        userService.save(userDto)
+
+        model.set("userdtos", userService.findAll())
+        return "redirect:adminListUsers"
     }
 
     @Secured("ROLE_ADMIN")
@@ -86,7 +94,9 @@ class AdminController (val adminService: AdminService,
         else {
             model.set("userdto", userService.createNewUser())
         }
-        return "adminEditSport"
+        model.set("districtNames", districtService.findAll().map { it.districtName })
+
+        return "adminEditUser"
     }
 
     // District bezogene Mappings
@@ -113,6 +123,7 @@ class AdminController (val adminService: AdminService,
         else {
             model.set("errorMessage", "Please provide a file for upload")
         }
+        model.set("districts", districtService.findAll())
         return "adminListDistricts"
     }
 
@@ -176,6 +187,7 @@ class AdminController (val adminService: AdminService,
         else {
             model.set("errorMessage", "Please provide a file for upload")
         }
+        model.set("sports", sportService.findAll())
         return "adminListSports"
     }
 

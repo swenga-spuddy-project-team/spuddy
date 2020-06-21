@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
+
 
 @Service
 class DistrictService (val districtRepository: DistrictRepository){
