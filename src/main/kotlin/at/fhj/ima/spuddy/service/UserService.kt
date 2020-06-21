@@ -99,7 +99,8 @@ class UserService (val userRepository: UserRepository,
 
      fun convertDtoToEntity(dto: UserDto,
                             skipUsernameVerfication: Boolean = false,
-                            skipPasswordVerfication: Boolean = false): User? {
+                            skipPasswordVerfication: Boolean = false,
+                            skipGenderVerfication: Boolean = false): User? {
 
         // User Daten Prüfung -> Bei Fehler wird DataIntegrityViolationException aufgerufen
         // when entspricht verkettetem if-Statement bzw. Guards aus Haskell
@@ -115,7 +116,9 @@ class UserService (val userRepository: UserRepository,
         verifyLastName(dto)
         verifyDate(dto)
         verifyDistrict(dto)
-        verifyGender(dto)
+         if(!skipGenderVerfication){
+             verifyGender(dto)
+         }
         verifyEmail(dto)
 
         //Todo: Verify Profilepicture
