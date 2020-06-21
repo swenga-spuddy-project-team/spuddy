@@ -50,7 +50,7 @@ class User(
     var isTeam: Boolean? = false,
     @OneToOne
     var profilePicture: File? = null,
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
     var sport : Set<Sport>? = null,
     @CreationTimestamp
     var timestamp : Timestamp? = null

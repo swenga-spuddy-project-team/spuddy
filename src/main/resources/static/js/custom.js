@@ -14,7 +14,6 @@ $(function() {
 
 
 
-
 $(document).ready(function() {
 
     var readURL = function(input) {

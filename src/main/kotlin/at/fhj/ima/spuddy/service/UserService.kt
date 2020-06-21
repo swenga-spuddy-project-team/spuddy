@@ -1,7 +1,6 @@
 package at.fhj.ima.spuddy.service
 
 import at.fhj.ima.spuddy.dto.UserDto
-import at.fhj.ima.spuddy.entity.File
 import at.fhj.ima.spuddy.entity.User
 import at.fhj.ima.spuddy.entity.UserRole
 import at.fhj.ima.spuddy.helpers.Quadruple
@@ -68,6 +67,7 @@ class UserService (val userRepository: UserRepository,
                 dto.profilePicturePath = Paths.get("/files/" + user.profilePicture!!.id!!)
             }
             dto.descriptionText = user.descriptionText
+            dto.sport = user.sport
             return dto
         } else
             return null
@@ -83,18 +83,27 @@ class UserService (val userRepository: UserRepository,
         }
     }
 
+    @Transactional
+    fun update(dto: UserDto) {
+        val user = convertDtoToEntity(dto, true)
+        if (user != null) {
+            userRepository.save(user)
+
+        } else {
+            throw DataIntegrityViolationException("Error: User could not be saved because it is null!")
+        }
+    }
 
 
 
-
-    private fun convertDtoToEntity(dto: UserDto): User? {
+    private fun convertDtoToEntity(dto: UserDto, update: Boolean = false): User? {
         // User Daten Prüfung -> Bei Fehler wird DataIntegrityViolationException aufgerufen
         // when entspricht verkettetem if-Statement bzw. Guards aus Haskell
         // Geschwungene Klammern von "when" umfassen alle zu bearbeitenden Fäll
         // Links vom Pfeil steht Condition
         // Rechts vom Pfeil (bzw. im Klammerblock danach) steht was bei Eintreten des Falls passieren soll
 
-        verifyUsername(dto)
+        verifyUsername(dto, update)
         verifyPassword(dto)
         verifyFirstName(dto)
         verifyLastName(dto)
@@ -116,8 +125,12 @@ class UserService (val userRepository: UserRepository,
                     email = dto.email,
                     isTeam = dto.isTeam,
                     profilePicture = dto.profilePicture,
-                    descriptionText = dto.descriptionText
+                    descriptionText = dto.descriptionText,
+                    sport = dto.sport
             )
+            if(update)
+                user.id = userRepository.findByUsername(dto.username)!!.id
+
             return user
         }
         catch (ex : Exception){
@@ -145,12 +158,12 @@ class UserService (val userRepository: UserRepository,
 
 
 
-    fun verifyUsername(dto:UserDto){
+    fun verifyUsername(dto:UserDto, update: Boolean = false){
         when {
-            ((userRepository.findByUsername(dto.username) != null)) -> {
+            ((userRepository.findByUsername(dto.username) != null) && !update) -> {
                 throw DataIntegrityViolationException("Error: usernameInUse name already in use!")
             }
-            (((dto.username) == null)) -> {
+            (((dto.username) == null) ) -> {
                 throw DataIntegrityViolationException("Error: usernameEmpty name field empty !")
             }
             else -> return

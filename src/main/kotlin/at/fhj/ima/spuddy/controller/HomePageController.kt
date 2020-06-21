@@ -5,6 +5,7 @@ import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.helpers.Quadruple
 import at.fhj.ima.spuddy.repository.UserRepository
 import at.fhj.ima.spuddy.service.DistrictService
+import at.fhj.ima.spuddy.service.SportService
 import at.fhj.ima.spuddy.service.UserService
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.access.annotation.Secured
@@ -22,7 +23,8 @@ import javax.validation.Valid
 
 @Controller
 class HomePageController(val userService: UserService,
-                         val districtService: DistrictService
+                         val districtService: DistrictService,
+                         val sportService: SportService
 
 ) {
 
@@ -37,7 +39,7 @@ class HomePageController(val userService: UserService,
 
     @RequestMapping("/home", method = [RequestMethod.GET])
     fun home(model: Model): String {
-
+        model.set("sports", sportService.findAll())
         model.set("districtNames", districtService.findAll().map { it.districtName })
         return "home"
 
@@ -47,14 +49,14 @@ class HomePageController(val userService: UserService,
 
     @RequestMapping("/updateUser", method = [RequestMethod.POST])
     fun updateUser(
-        @ModelAttribute("userdto") @Valid userdto: UserDto, bindingResult: BindingResult, model: Model): String {
+        @ModelAttribute("currentUser") @Valid userdto: UserDto, bindingResult: BindingResult, model: Model): String {
         if (bindingResult.hasErrors()) {
-            return "/home"
+            return "home"
         }
         try {
             // Fange alle Fehler auf die mit Constraint Violations zu tun haben
             try {
-                userService.save(userdto)
+                userService.update(userdto)
             } catch (cve: ConstraintViolationException) {
                 if (cve.message.orEmpty().contains("must be a past date")) {
                     bindingResult.rejectValue(
@@ -74,9 +76,12 @@ class HomePageController(val userService: UserService,
                 userService.userInputExceptionHandling(dive.message)
             bindingResult.rejectValue(errorQuadruple.second, errorQuadruple.third, errorQuadruple.fourth)
             model.set("districtNames", districtService.findAll().map { it.districtName })
+            model.set("sports", sportService.findAll())
             return "home"
         }
-        return "redirect:home"
+        model.set("districtNames", districtService.findAll().map { it.districtName })
+        model.set("sports", sportService.findAll())
+        return "home"
     }
 }
 

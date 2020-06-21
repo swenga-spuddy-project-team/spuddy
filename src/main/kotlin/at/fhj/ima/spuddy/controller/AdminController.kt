@@ -87,6 +87,7 @@ class AdminController (val adminService: AdminService,
             val errorQuadruple: Quadruple<String, String, String, String> = userService.userInputExceptionHandling(dive.message)
             bindingResult.rejectValue(errorQuadruple.second, errorQuadruple.third, errorQuadruple.fourth)
 
+            model.set("sports", sportService.findAll())
             model.set("districtNames", districtService.findAll().map { it.districtName })
             model.set("userdto", userService.createNewUser())
             return "adminEditUser"
@@ -95,6 +96,7 @@ class AdminController (val adminService: AdminService,
             if(cve.message.orEmpty().contains("must be a past date")){
                 bindingResult.rejectValue("dateOfBirth", "dateOfBirth.inFuture", "Date of birth must be in the past")
                 model.set("districtNames", districtService.findAll().map { it.districtName })
+                model.set("sports", sportService.findAll())
                 model.set("userdto", userService.createNewUser())
                 return "adminEditUser"
             }
@@ -126,6 +128,7 @@ class AdminController (val adminService: AdminService,
             model.set("userdto", userService.createNewUser())
         }
         model.set("districtNames", districtService.findAll().map { it.districtName })
+        model.set("sports", sportService.findAll())
 
         return "adminEditUser"
     }

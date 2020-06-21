@@ -41,7 +41,7 @@
                                     <label for="username" class="col-4 col-form-label">User Name</label>
                                     <div class="col-8">
                                         <form:input id="inputUsername" path="username" type="text" class="form-control"
-                                                    required="required" value="${currentUser.username}"/>
+                                                    required="required" value="${currentUser.username}" readonly="true"/>
                                         <form:errors path="username" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
@@ -130,8 +130,31 @@
                                         </form:select>
                                         <form:errors path="district" cssClass="invalid-feedback d-block"/>
                                     </div>
-                                    <! ---------------- email ---------------- -->
                                 </div>
+
+                                    <! ---------------- Sports ---------------- -->
+                                    <div class="form-group row">
+                                        <label for="select" class="col-4 col-form-label">Sports</label>
+                                        <div class="col-8">
+                                            <form:select path="sport" items="${sports}" itemValue="sportId" itemLabel="name"
+                                                         cssClass="form-control" />
+                                            <form:errors path="sport" cssClass="invalid-feedback d-block"/>
+                                        </div>
+                                    </div>
+
+                                <! ---------------- Sports ---------------- -->
+                                <div class="form-group row">
+                                    <label for="select" class="col-4 col-form-label">Sports</label>
+                                    <div class="col-8">
+                                        <form:select path="sport" items="${currentUser.sport}" itemValue="sportId" itemLabel="name"
+                                                     cssClass="form-control" disabled="true" />
+                                        <form:errors path="sport" cssClass="invalid-feedback d-block"/>
+                                    </div>
+                                </div>
+
+
+                                    <! ---------------- email ---------------- -->
+
                                 <div class="form-group row">
                                     <label for="email" class="col-4 col-form-label">Email</label>
                                     <div class="col-8">
@@ -189,15 +212,3 @@
 
 </layout:page-container>
 
-<!%
-----------------------------------------------------------------------------------------------------------------------------
-Das fehlt:
-
---password logik: wenn die passwortfelder beide null sind, dann soll  das alte passwort bestehend bleiben
-
--- wenn man den update profile button klickt soll das profil geupdatet werden (controller updaten)
-
--- sport auswahl fehlt noch
-
-
-%>

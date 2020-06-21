@@ -2,6 +2,7 @@ package at.fhj.ima.spuddy.dto
 
 import at.fhj.ima.spuddy.entity.File
 import at.fhj.ima.spuddy.entity.Gender
+import at.fhj.ima.spuddy.entity.Sport
 import java.nio.file.Path
 import java.time.LocalDate
 import javax.validation.constraints.Size
@@ -27,4 +28,5 @@ class UserDto (
     var profilePicture: File? = null
     var profilePicturePath: Path? = null
     var descriptionText: String? = null
+    var sport : Set<Sport>? = null
 }
