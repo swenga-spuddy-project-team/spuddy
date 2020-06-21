@@ -60,6 +60,7 @@
                                     <label for="profilePicture" class="col-4 col-form-label">Upload a picture</label>
                                     <div class="col-8">
                                         <input class="file-upload" type="file" name="file" accept="image/*"/>
+                                        <form:errors path="profilePicture" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
                                 <! ---------------- first name ---------------- -->

@@ -1,13 +1,10 @@
 package at.fhj.ima.spuddy.controller
 
 import at.fhj.ima.spuddy.dto.UserDto
-import at.fhj.ima.spuddy.entity.User
-import at.fhj.ima.spuddy.entity.UserRole
 import at.fhj.ima.spuddy.helpers.Quadruple
 import at.fhj.ima.spuddy.service.DistrictService
 import at.fhj.ima.spuddy.service.UserService
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -59,86 +56,14 @@ class SignUpController (val userService: UserService,
             }
         } catch (dive: DataIntegrityViolationException) {
             // ERROR Messages related to username
-            val errorList = listOf(
-                Quadruple("username", "username","username.alreadyInUse", "Username already in use"),
-                Quadruple("passwordLength", "password","password.lengthRequirementNotMet", "Password must be between 2 and 30 characters"),
-                Quadruple("passwordNull", "password","password.empty", "Password field must not be empty"),
-                Quadruple("passwordNotMatch", "password","password.notMatch", "Passwords don't match!"),
-                Quadruple("district", "district","district.invalidSelection", "District invalid"),
-                Quadruple("firstName", "firstName","firstName.empty", "First name is required"),
-                Quadruple("lastName", "lastName","lastName.empty", "Last name is required"),
-                Quadruple("dateOfBirth", "dateOfBirth","dateOfBirth.empty", "Date of birth is required"),
-                Quadruple("gender", "gender","gender.empty", "Gender is required"),
-                Quadruple("email", "email","email.empty", "email is required"),
-                Quadruple("userInstantiation", "username","user.generalError", "Unidentifiable error during user instantiation")
-            )
-            
-            // errorList.reduce { acc, quadruple -> acc = when (dive.message.orEmpty().contains(quadruple.first) ->   }
 
-            when {
-            (dive.message.orEmpty().contains("username")) -> {
-                bindingResult.rejectValue("username", "username.alreadyInUse", "Username already in use")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to password
-            (dive.message.orEmpty().contains("passwordLength")) -> {
-                // Code unterhalb gibt eine Fehlermeldung beim "Error" Path des jeweiligen Formfelds aus
-                // In diesem fall bei <form:errors path="password" cssClass="invalid-feedback d-block"/>
-                // Im signup.jsp
-                bindingResult.rejectValue("password", "password.lengthRequirementNotMet", "Password must be between 2 and 30 characters")
-                // Code unterhalb gibt eine Fehlernachricht in Form eines Header Banners aus
-                // model.set("errorMessage", "Password does not meet length requirement!")
-                return returnToSignup(model)
-            }
-            (dive.message.orEmpty().contains("passwordNull")) -> {
-                bindingResult.rejectValue("password", "password.empty", "Password field must not be empty")
-                return returnToSignup(model)
-            }
-            (dive.message.orEmpty().contains("passwordNotMatch")) -> {
-                bindingResult.rejectValue("password", "password.notMatch", "Passwords don't match!")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to district
-             (dive.message.orEmpty().contains("district")) -> {
-                bindingResult.rejectValue("district", "district.invalidSelection", "District invalid.")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to firstName
-            (dive.message.orEmpty().contains("firstName")) -> {
-                bindingResult.rejectValue("firstName", "firstName.empty", "First name is required.")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to lastName
-            (dive.message.orEmpty().contains("lastName")) -> {
-                bindingResult.rejectValue("lastName", "lastName.empty", "Last name is required.")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to dateOfBirth
-            (dive.message.orEmpty().contains("dateOfBirth")) -> {
-                bindingResult.rejectValue("dateOfBirth", "dateOfBirth.empty", "Date of birth is required.")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to gender
-            (dive.message.orEmpty().contains("gender")) -> {
-                bindingResult.rejectValue("gender", "gender.empty", "Gender is required.")
-                return returnToSignup(model)
-            }
-            // ERROR Messages related to email
-            (dive.message.orEmpty().contains("email")) -> {
-                bindingResult.rejectValue("email", "email.empty", "email is required.")
-                return returnToSignup(model)
-            }
-            (dive.message.orEmpty().contains("userInstantiation")) -> {
-                bindingResult.rejectValue("username", "user.generalError", "Unidentifiable error during user instantiation.")
-                return returnToSignup(model)
-            }
-            else -> {
-                throw dive
-            }
-        }
+            val errorQuadruple: Quadruple<String, String, String, String> = userService.userInputExceptionHandling(dive.message)
+            bindingResult.rejectValue(errorQuadruple.second, errorQuadruple.third, errorQuadruple.fourth)
+            return returnToSignup(model)
+
         }
         // Todo: Redirect auf signup success Seite um User anzuzeigen das er sich erfolgreich angemeldet hat
-        return "redirect:login"
+        return "login"
     }
 
     // Return to signup page without reseting all the data

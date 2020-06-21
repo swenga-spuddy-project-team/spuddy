@@ -28,10 +28,12 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .antMatchers("/signup").permitAll()
             .antMatchers("/test").permitAll()
             .antMatchers("/addUser").permitAll()
+            .antMatchers("/login").permitAll()
             //.antMatchers("/anonymous3").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin().successHandler(myLoginSuccessHandler)
+            .loginPage("/login")
             .and()
             .rememberMe().key("uniqueAndSecret").userDetailsService(myUserDetailsService)
     }
