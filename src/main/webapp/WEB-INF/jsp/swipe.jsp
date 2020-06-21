@@ -18,7 +18,7 @@
             <div class="col-6">
                 <div class="container" id="randomUser" value="<c:out value="${swipe.id}"/>">
                     <div>
-                        <img src="..." class="img-fluid" alt="Responsive image">
+                        <img src="${nextUser.profilePicturePath}" class="img-fluid" alt="Responsive image">
                     </div>
                     <div class="container">
                         <div class="row">

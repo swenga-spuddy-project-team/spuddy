@@ -23,18 +23,21 @@ class SwipeController (val userService: UserService,
                        val districtService: DistrictService,
                        val sportService: SportService,
                        val swipeService: SwipeService
-){
+) {
 
     @RequestMapping("/swipe", method = [RequestMethod.GET])
     fun swipe(model: Model): String {
         val currentUser = model.getAttribute("currentUser") as UserDto
-        setModelData (currentUser,model)
+        setModelData(currentUser, model)
         return "swipe"
     }
 
-    private fun setModelData(currentUser: UserDto, model: Model){
+    private fun setModelData(currentUser: UserDto, model: Model) {
         val district = districtService.findByDistrictName(currentUser.district.orEmpty())
-        model.addAttribute("nextUser", userService.convertEntityToDto(swipeService.getNextUser(district!!, emptySet(),currentUser.username)))
+        model.addAttribute(
+            "nextUser",
+            userService.convertEntityToDto(swipeService.getNextUser(district!!, emptySet(), currentUser.username))
+        )
     }
     //wenn keine User in Datenbank, swipeService raus in eigene val
     //überprüfen ob leer
@@ -49,6 +52,7 @@ class SwipeController (val userService: UserService,
             swipeService.prepareDataAndGenerateUserLike(currentUser.username, userLikeId, StatusLikes.LIKED)
         )
         setModelData(currentUser, model)
+        //swipeService.handleMatch(userService., )
         return "swipe"
     }
 
@@ -62,18 +66,4 @@ class SwipeController (val userService: UserService,
         setModelData(currentUser, model)
         return "swipe"
     }
-/*
-    fun allUsersStatusSet(user: User) :List<User>{
-        val createLikedList = createBlockedList()
-        val createDislikedList = createBlockedList()
-        val createBlockedList = createBlockedList()
-    }
-
-    @RequestMapping("/swipeAction", method = [RequestMethod.POST])
-    fun swipeAction(model: Model, user: User, userLike: UserLike): String {
-        val prefilteredList = findByUsername.filter {sharedDistrictAndSports(@Param "district", @Param "sport")}
-        val noStatus = prefilteredList.reduce {allUsersStatusSet()}
-        model.set()
-        return "swipeAction"
-    }*/
 }
