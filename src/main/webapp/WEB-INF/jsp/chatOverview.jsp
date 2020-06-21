@@ -40,7 +40,7 @@
                         <td><img src="${userdto.imageUrl}" alt="profilePic chat" width="40px"></td>
                         <td>${userdto.username}</td>
                         <td>
-                            <a href="chat?id=${userdto.id}" type="submit"
+                            <a href="chat?id=${userdto.id}&param2=${receiver}" type="submit"
                                class="btn btn-xl btn-link">Chat with me</a>
 
                         </td>
