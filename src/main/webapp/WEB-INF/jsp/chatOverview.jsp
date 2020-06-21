@@ -35,7 +35,7 @@
                 </tr>
 
 
-                <c:forEach items="${matchesdtos}" var="userdto">
+                <c:forEach items="${matchesList.}" var="userdto">
                     <tr>
                         <td><img src="${userdto.imageUrl}" alt="profilePic chat" width="40px"></td>
                         <td>${userdto.username}</td>

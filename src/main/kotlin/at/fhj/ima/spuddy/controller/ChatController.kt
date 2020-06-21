@@ -1,28 +1,34 @@
 package at.fhj.ima.spuddy.controller
 
-import at.fhj.ima.spuddy.dto.MsgDto
 import at.fhj.ima.spuddy.dto.UserDto
 import at.fhj.ima.spuddy.service.MessageService
 import at.fhj.ima.spuddy.service.UserService
-import org.springframework.security.access.annotation.Secured
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.multipart.MultipartFile
 import javax.validation.Valid
+
 
 @Controller
 class ChatController(val userService: UserService,
-                     val messageService: MessageService) {
+                     val messageService: MessageService
+                      ) {
 
 
     @RequestMapping("/chatOverview", method = [RequestMethod.GET])
     fun chatOverview(model: Model): String {
+        val auth: Authentication = SecurityContextHolder.getContext().authentication
+        val name: String = auth.getName() //get logged in username
+
+
+        model.addAttribute("username", name)
+        model.set("matchesList", messageService.getMatchesList(userService.findByUsername(name)!!))
         return "chatOverview"
     }
 
