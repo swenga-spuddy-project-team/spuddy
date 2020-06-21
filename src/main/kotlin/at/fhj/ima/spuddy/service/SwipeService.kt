@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SwipeService (val userRepository: UserRepository,
-                    val userLikeRepository: UserLikeRepository
+                    val userLikeRepository: UserLikeRepository,
+                    val userService: UserService
 
 ) {
     fun getNextUser(district: District, sport: Set<Sport>, username: String): User? {
@@ -32,16 +33,19 @@ class SwipeService (val userRepository: UserRepository,
         val loadSwipedUser = userRepository.findByUserId(swipedUserId)
         generateUserLike(loadCurrentUser!!, loadSwipedUser!!, statusLikes)
     }
-}
-/*
+
     fun handleMatch(currentUser: UserDto, swipedUser: UserDto) {
-        userLikeRepository.findLikesBySwipedUser(currentUser, swipedUser, StatusLikes.LIKED) ?: return
-        generateUserLike(currentUser, swipedUser, StatusLikes.MATCHED)
+        userLikeRepository.findMatchByUsers(userService.convertDtoToEntity(currentUser)!!, userService.convertDtoToEntity(swipedUser)!!, StatusLikes.LIKED) ?: return
+        generateUserLike(userService.convertDtoToEntity(currentUser)!!, userService.convertDtoToEntity(swipedUser)!!, StatusLikes.MATCHED)
     }
 }
 
 
     /*
+    fun findSwipedUser (swipedUserId: Int){
+        val loadSwipedUser = userRepository.findByUserId(swipedUserId)
+    }
+
     fun isMatch(currentUser: User, swipedUser: User){
         val findUserLikes = userLikeRepository.findLikesBySwipedUser(currentUser,swipedUser,StatusLikes.LIKED)
         if (findUserLikes == null)

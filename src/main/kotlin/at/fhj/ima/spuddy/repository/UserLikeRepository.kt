@@ -12,7 +12,7 @@ interface UserLikeRepository: JpaRepository<UserLike, Int> {
     fun findLikesBySwipingUser(@Param("swipingUser") swipingUser: User): List<UserLike>
 
     @Query("from UserLike where swipedUser = :swipedUser and swipingUser = :swipingUser and statusLikes = :statusLikes")
-    fun findLikesBySwipedUser(@Param("swipedUser")swipedUser: User, @Param("swipingUser")swipingUser: User, @Param("statusLikes")statusLikes: StatusLikes): UserLike?
+    fun findMatchByUsers(@Param("swipedUser")swipedUser: User, @Param("swipingUser")swipingUser: User, @Param("statusLikes")statusLikes: StatusLikes): UserLike?
 
     @Query("from UserLike where swipingUser = :swipingUser and statusLikes = :statusLikes")
     fun findUserMatches(@Param("swipingUser") swipingUser: User, @Param("statusLikes")statusLikes: StatusLikes): List<UserLike>
