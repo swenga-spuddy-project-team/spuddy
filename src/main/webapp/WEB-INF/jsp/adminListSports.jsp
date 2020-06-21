@@ -15,9 +15,9 @@
     <row>
         <div>
             <form:form method="post" action="/importSportData" enctype="multipart/form-data">
-            <a href="/adminEditSport" class="btn btn-success">Add Sport</a>
+            <a href="/adminEditSport" class="btn btn-success"><spring:message code="adminListSports.AddSport"/></a>
 
-                <button class="btn btn-success" type="submit">Import Sport Data</button>
+                <button class="btn btn-success" type="submit"><spring:message code="adminListSports.importSportData"/></button>
                 <input type="file" name="file"/>
             </form:form>
             <form:errors path="importSportData" cssClass="invalid-feedback d-block"/>
@@ -31,8 +31,8 @@
             <table data-toggle="table" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Description</th>
+                    <th><spring:message code="adminListSports.id"/></th>
+                    <th><spring:message code="adminListSports.description"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,12 +42,12 @@
                         <td>${sport.name}</td>
                         <td>
                             <a href="adminEditSport?sportId=${sport.sportId}" type="submit"
-                               class="btn btn-xs btn-warning">Edit</a>
+                               class="btn btn-xs btn-warning"><spring:message code="adminListSports.EditSport"/></a>
 
                         </td>
                         <td>
                             <form:form method="post" action="adminDeleteSport?sportId=${sport.sportId}">
-                                <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-xs btn-danger"><spring:message code="adminListSports.DeleteSport"/></button>
                             </form:form>
                         </td>
                     </tr>

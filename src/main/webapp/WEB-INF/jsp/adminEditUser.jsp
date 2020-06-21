@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <h4>Your Profile</h4>
+                                <h4><spring:message code="adminEditUser.header"/></h4>
                                 <div class="avatar-wrapper">
                                     <img src="${userdto.profilePicturePath}"/>
                                     <div class="upload-button">
@@ -46,7 +46,7 @@
                                            novalidate="novalidate" enctype="multipart/form-data">
                                 <! ---------------- user name ---------------- -->
                                 <div class="form-group row">
-                                    <label for="username" class="col-4 col-form-label">User Name</label>
+                                    <label for="username" class="col-4 col-form-label"><spring:message code="adminEditUser.username"/></label>
                                     <div class="col-8">
                                         <form:input id="inputUsername" path="username" type="text" class="form-control"
                                                     required="required" value="${userdto.username}"
@@ -56,7 +56,7 @@
                                 </div>
                                 <! ---------------- upload profile picture ------>
                                 <div class="form-group row">
-                                    <label for="profilePicture" class="col-4 col-form-label">Upload a picture</label>
+                                    <label for="profilePicture" class="col-4 col-form-label"><spring:message code="adminEditUser.uploadPic"/></label>
                                     <div class="col-8">
                                         <input class="file-upload" type="file" name="file" accept="image/*"/>
                                         <form:errors path="profilePicture" cssClass="invalid-feedback d-block"/>
@@ -65,7 +65,7 @@
                                 <! ---------------- first name ---------------- -->
 
                                 <div class="form-group row">
-                                    <label for="inputFirstName" class="col-4 col-form-label">First Name</label>
+                                    <label for="inputFirstName" class="col-4 col-form-label"><spring:message code="adminEditUser.firstname"/></label>
                                     <div class="col-8">
                                         <form:input id="inputFirstName" path="firstName" type="text"
                                                     class="form-control"
@@ -76,7 +76,7 @@
                                 </div>
                                 <! ---------------- lastname ---------------- -->
                                 <div class="form-group row">
-                                    <label for="inputLastName" class="col-4 col-form-label">Last Name</label>
+                                    <label for="inputLastName" class="col-4 col-form-label"><spring:message code="adminEditUser.lastname"/></label>
                                     <div class="col-8">
                                         <form:input id="inputLastName" path="lastName" type="text" class="form-control"
                                                     required="required" value="${userdto.lastName}"
@@ -87,7 +87,7 @@
 
                                 <! ---------------- dateOfBirth ---------------- -->
                                 <div class="form-group row">
-                                    <label for="inputDate" class="col-4 col-form-label">Date</label>
+                                    <label for="inputDate" class="col-4 col-form-label"><spring:message code="adminEditUser.date"/></label>
                                     <div class="col-8">
                                         <form:input id="inputDate" path="dateOfBirth" type="date" class="form-control"
                                                     required="required" value="${userdto.dateOfBirth}"
@@ -98,17 +98,17 @@
 
                                 <! ---------------- Gender ---------------- -->
                                 <div class="form-group row">
-                                    <label for="male" class="col-4 col-form-label">Gender</label>
+                                    <label for="male" class="col-4 col-form-label"><spring:message code="adminEditUser.gender"/></label>
                                     <div class="col-8">
                                         <input type="radio" id="male" name="gender" value="${userdto.gender = "MALE"}"
                                                readonly="${notEditable}">
-                                        <label for="male">Male</label>
+                                        <label for="male"><spring:message code="adminEditUser.genderMale"/></label>
                                         <input type="radio" id="female" name="gender"
                                                value="${userdto.gender = "FEMALE"}" readonly="${notEditable}">
-                                        <label for="female">Female</label>
+                                        <label for="female"><spring:message code="adminEditUser.genderFemale"/> </label>
                                         <input type="radio" id="other" name="gender" value="${userdto.gender = "OTHER"}"
                                                readonly="${notEditable}">
-                                        <label for="other">Other</label><br>
+                                        <label for="other"><spring:message code="adminEditUser.genderOther"/> </label><br>
                                         <form:errors path="gender" cssClass="invalid-feedback d-block"/>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
                                 <! ---------------- District ---------------- -->
 
                                 <div class="form-group row">
-                                    <label for="select" class="col-4 col-form-label">District</label>
+                                    <label for="select" class="col-4 col-form-label"><spring:message code="adminEditUser.district"/></label>
                                     <div class="col-8">
                                         <form:select path="district" itemValue="district" itemLabel="district"
                                                      readonly="${notEditable}"
@@ -131,7 +131,7 @@
                                     <c:choose>
                                         <c:when test="${userdto.username == ''}" >
                                             <div class="form-group row">
-                                                <label for="select" class="col-4 col-form-label">Sports</label>
+                                                <label for="select" class="col-4 col-form-label"><spring:message code="adminEditUser.Sports"/></label>
                                                 <div class="col-8">
                                                     <form:select path="sport" items="${sports}" itemValue="sportId" itemLabel="name"
                                                                  cssClass="form-control" />
@@ -141,7 +141,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <div class="form-group row">
-                                                <label for="select" class="col-4 col-form-label">Sports</label>
+                                                <label for="select" class="col-4 col-form-label"><spring:message code="adminEditUser.Sports"/></label>
                                                 <div class="col-8">
                                                     <form:select path="sport" items="${userdto.sport}"  itemLabel="name"
                                                                  cssClass="form-control" disabled="true" />
@@ -154,7 +154,7 @@
                                 <! ---------------- email ---------------- -->
 
                             <div class="form-group row">
-                                <label for="email" class="col-4 col-form-label">Email</label>
+                                <label for="email" class="col-4 col-form-label"><spring:message code="adminEditUser.email"/></label>
                                 <div class="col-8">
                                     <form:input id="inputEmail" path="email" type="email" class="form-control"
                                                 readonly="${notEditable}"
@@ -165,7 +165,7 @@
                             <! ---------------- description ---------------- -->
                             <div class="form-group row">
                                 <label for="inputDescriptionText"
-                                       class="col-4 col-form-label">ProfileDescription</label>
+                                       class="col-4 col-form-label"><spring:message code="adminEditUser.description"/></label>
                                 <div class="col-8">
                                     <form:textarea id="inputDescriptionText" path="descriptionText" cols="40" rows="4"
                                                    class="form-control" readonly="${notEditable}"/>
@@ -178,7 +178,7 @@
                                 <! ---------------- new password ---------------- -->
 
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-4 col-form-label">New Password</label>
+                                    <label for="inputPassword" class="col-4 col-form-label"><spring:message code="adminEditUser.password"/></label>
                                     <div class="col-8">
                                         <form:input id="inputPassword" path="password" type="password"
                                                     class="form-control"/>
@@ -189,7 +189,7 @@
                                 <! ---------------- Repeat Password ---------------- -->
 
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-4 col-form-label">New Password</label>
+                                    <label for="inputPassword" class="col-4 col-form-label"><spring:message code="adminEditUser.passwordRepeat"/></label>
                                     <div class="col-8">
                                         <form:input id="inputPasswordRepeat" path="passwordrepeat" type="password"
                                                     class="form-control"/>
@@ -203,10 +203,10 @@
                             <div class="form-group row">
                                 <div class="offset-4 col-8">
                                     <c:if test="${userdto.username == ''}">
-                                        <button name="submit" type="submit" class="btn btn-primary">Create Profile
+                                        <button name="submit" type="submit" class="btn btn-primary"><spring:message code="adminEditUser.confirm"/>
                                         </button>
                                     </c:if>
-                                    <a href="/adminListUsers" class="btn btn-default">Cancel</a>
+                                    <a href="/adminListUsers" class="btn btn-default"><spring:message code="adminEditUser.cancel"/></a>
                                 </div>
                             </div>
                             </form:form>

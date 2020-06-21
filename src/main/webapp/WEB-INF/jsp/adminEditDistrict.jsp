@@ -13,9 +13,9 @@
 
     <c:choose>
         <c:when test="${district.districtId != null}">
-            <c:set var="districtIdActive">Edit district with ID ${district.districtId}</c:set>
+            <c:set var="districtIdActive"><spring:message code="adminEditDistrict.Header"/> ${district.districtId}</c:set>
         </c:when>
-        <c:otherwise><c:set var="districtIdActive">Add new district</c:set></c:otherwise>
+        <c:otherwise><c:set var="districtIdActive"><spring:message code="adminEditDistrict.NewDistrict"/></c:set></c:otherwise>
     </c:choose>
 
     <div class="col-md-4">
@@ -28,7 +28,7 @@
         <fieldset>
             <input type="hidden" name="districtId" value="<c:out value="${district.districtId}"/>">
             <div class="form-group">
-                <label for="inputDistrictName" class="col-md-6 control-label">District Name*</label>
+                <label for="inputDistrictName" class="col-md-6 control-label"><spring:message code="adminEditDistrict.DistrictName"/></label>
                 <div class="col-md-6">
                     <form:input id="inputDistrictName" path="districtName" type="text" class="form-control"
                                 required="required"/>
@@ -38,8 +38,8 @@
 
             <div class="form-group">
                 <div class="col-md-10 col-md-offset-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="adminListDistricts" class="btn btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-primary"><spring:message code="adminEditUser.confirm"/></button>
+                    <a href="adminListDistricts" class="btn btn-default"><spring:message code="adminEditUser.cancel"/></a>
                 </div>
             </div>
         </fieldset>

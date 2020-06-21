@@ -14,7 +14,7 @@
 
 
     <div>
-            <a href="/adminEditUser" class="btn btn-success">Add User</a>
+            <a href="/adminEditUser" class="btn btn-success"><spring:message code="adminListUsers.AddUser"/></a>
     </div>
 
     <div class="row">
@@ -23,8 +23,8 @@
             <table data-toggle="table" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Username</th>
+                    <th><spring:message code="adminListUsers.id"/></th>
+                    <th><spring:message code="adminListUsers.username"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,13 +34,13 @@
                         <td>${userdto.username}</td>
                         <td>
                             <a href="adminEditUser?id=${userdto.id}" type="submit"
-                               class="btn btn-xs btn-warning">Edit</a>
+                               class="btn btn-xs btn-warning"><spring:message code="adminListUsers.EditUser"/></a>
 
                         </td>
                         <td>
                             <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                                 <form:form method="post" action="adminDeleteUser?id=${userdto.id}">
-                                    <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-xs btn-danger"><spring:message code="adminListUsers.DeleteUser"/></button>
                                 </form:form>
                             </sec:authorize>
                         </td>
