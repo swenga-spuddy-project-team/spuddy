@@ -7,7 +7,7 @@ Sollte die datenbank noch nicht angelegt sein, kann es sein das man das Projekt
 ein 2. mal compilen muss.
 
 
-Zuerst mit dem Usernamen Admin und dem Passwort admin anmelden
+Zuerst mit dem Usernamen admin und dem Passwort admin anmelden
 und dann Testdaten generieren.
  
  
@@ -15,14 +15,15 @@ Oben rechts mit dem Logout Button kann man sich ausloggen
 und dann mit einem der generierten  user wieder anmelden.
 
 
-username:   Usera
-pw:         test
 
-Userb       pw:test
-pw:         test
+UserA       pw:test
 
-Userc       pw:test
-pw:         test
+
+UserB       pw:test
+
+
+UserC       pw:test
+
 
 
 Der Admin hat die Möglichkeit 
